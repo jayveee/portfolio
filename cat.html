@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joanna Veloria — A cat to play with</title>
+  <meta name="robots" content="noindex" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Heavy.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans Mono'; src: url('fonts/SaansMono-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+
+    body {
+      font-family: 'Saans', ui-sans-serif, system-ui, sans-serif;
+      background: #fafaf9;
+      color: #1c1917;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+    }
+    .mono { font-family: 'Saans Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .display { font-weight: 800; letter-spacing: -0.04em; }
+
+    /* Pixelated rendering for the canvas — gives the 8-bit feel */
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+    canvas:active { cursor: grabbing; }
+
+    .toy-btn {
+      transition: all .15s ease;
+    }
+    .toy-btn.active {
+      background: #1c1917;
+      color: #fafaf9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top status -->
+  <header class="fixed top-0 inset-x-0 z-10 px-6 sm:px-10 pt-6 pointer-events-none">
+    <div class="max-w-[1600px] mx-auto flex items-center justify-between mono text-xs tracking-[0.2em] uppercase text-stone-500">
+      <a href="index.html" class="pointer-events-auto hover:text-stone-900 transition">← Back</a>
+      <span>Pet the cat</span>
+      <span>[v 0.1]</span>
+    </div>
+  </header>
+
+  <!-- Main canvas -->
+  <canvas id="game"></canvas>
+
+  <!-- Toy picker -->
+  <div class="fixed bottom-0 inset-x-0 z-10 px-6 sm:px-10 pb-6 pointer-events-none">
+    <div class="max-w-[1600px] mx-auto flex flex-col items-center gap-3">
+      <p class="mono text-xs tracking-[0.2em] uppercase text-stone-500">Pick a toy — click & drag to throw</p>
+      <div class="flex gap-2 pointer-events-auto">
+        <button data-toy="yarn"    class="toy-btn active mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Yarn</button>
+        <button data-toy="mouse"   class="toy-btn mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Mouse</button>
+        <button data-toy="feather" class="toy-btn mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Feather</button>
+        <button data-toy="fish"    class="toy-btn mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Fish</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ============================================================
+// 8-bit Siberian cat — vanilla Canvas, placeholder shapes (v0.1)
+// ============================================================
+
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+// Logical (pixelated) resolution — small grid that gets scaled up by CSS for 8-bit look
+const GRID_W = 320;
+const GRID_H = 180;
+let scale = 1; // pixel scale calculated on resize
+
+function resize() {
+  // Set canvas backing buffer to a nice integer multiple of the grid for crisp pixels
+  const cw = window.innerWidth;
+  const ch = window.innerHeight;
+  // Find largest integer scale that fits
+  scale = Math.max(1, Math.floor(Math.min(cw / GRID_W, ch / GRID_H)));
+  canvas.width  = GRID_W * scale;
+  canvas.height = GRID_H * scale;
+  ctx.imageSmoothingEnabled = false;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// World coordinates are in GRID units. We multiply by `scale` when drawing.
+const px = (n) => n * scale;
+
+// ---------- Game state ----------
+const state = {
+  cat: {
+    x: 160, y: 140, vx: 0, vy: 0,
+    facing: 1,            // 1 = right, -1 = left
+    mood: 'idle',         // idle | curious | chasing | batting | sleepy
+    moodTimer: 0,
+    bob: 0,               // breathing animation
+    walkPhase: 0
+  },
+  toy: {
+    type: 'yarn',
+    x: -100, y: -100,     // off-screen until thrown
+    vx: 0, vy: 0,
+    spinning: 0,
+    held: false,          // user is dragging
+    active: false         // toy is in play (thrown or held)
+  },
+  pointer: { x: 0, y: 0, down: false, dragStart: null }
+};
+
+const GROUND_Y = 152;     // ground line
+const GRAVITY  = 0.35;
+const FRICTION = 0.85;    // ground friction for toy
+const BOUNCE   = 0.5;     // toy bounce on ground
+
+// ---------- Input ----------
+function pointerToGrid(e) {
+  const rect = canvas.getBoundingClientRect();
+  const cx = (e.clientX - rect.left) / rect.width;
+  const cy = (e.clientY - rect.top)  / rect.height;
+  return { x: cx * GRID_W, y: cy * GRID_H };
+}
+
+canvas.addEventListener('pointerdown', (e) => {
+  const p = pointerToGrid(e);
+  state.pointer.x = p.x; state.pointer.y = p.y;
+  state.pointer.down = true;
+  state.pointer.dragStart = { x: p.x, y: p.y, t: performance.now() };
+  // Pick up the toy from anywhere — spawn it at pointer
+  state.toy.x = p.x;
+  state.toy.y = p.y;
+  state.toy.vx = 0;
+  state.toy.vy = 0;
+  state.toy.held = true;
+  state.toy.active = true;
+});
+canvas.addEventListener('pointermove', (e) => {
+  const p = pointerToGrid(e);
+  state.pointer.x = p.x; state.pointer.y = p.y;
+  if (state.toy.held) {
+    state.toy.x = p.x;
+    state.toy.y = p.y;
+  }
+});
+function release(e) {
+  if (!state.pointer.down) return;
+  state.pointer.down = false;
+  if (state.toy.held && state.pointer.dragStart) {
+    const dt = Math.max(16, performance.now() - state.pointer.dragStart.t);
+    const p = pointerToGrid(e);
+    // Velocity from recent drag — quick flick = strong throw
+    state.toy.vx = (p.x - state.pointer.dragStart.x) / (dt / 80);
+    state.toy.vy = (p.y - state.pointer.dragStart.y) / (dt / 80);
+  }
+  state.toy.held = false;
+}
+canvas.addEventListener('pointerup', release);
+canvas.addEventListener('pointercancel', release);
+canvas.addEventListener('pointerleave', release);
+
+// Toy picker
+document.querySelectorAll('.toy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.toy.type = btn.dataset.toy;
+  });
+});
+
+// ---------- Cat AI ----------
+function updateCat(dt) {
+  const c = state.cat;
+  c.bob += dt * 0.004;
+  c.moodTimer -= dt;
+
+  const toyOnScreen = state.toy.active && state.toy.x > -10 && state.toy.x < GRID_W + 10;
+  const dx = state.toy.x - c.x;
+  const dy = state.toy.y - c.y;
+  const distToToy = Math.hypot(dx, dy);
+
+  // State decisions
+  if (toyOnScreen && Math.abs(state.toy.vx) > 0.6 || Math.abs(state.toy.vy) > 0.6) {
+    c.mood = 'curious';
+    c.moodTimer = 1500;
+  }
+  if (toyOnScreen && distToToy < 80 && (state.toy.vy === 0 || Math.abs(state.toy.vx) < 0.2)) {
+    // Toy is settled near cat — chase it
+    c.mood = 'chasing';
+  }
+  if (toyOnScreen && distToToy < 18) {
+    // Pounce / bat
+    c.mood = 'batting';
+    c.moodTimer = 200;
+    // Cat bats toy away
+    state.toy.vx = (state.toy.x - c.x) * 0.25 + (Math.random() - 0.5) * 2;
+    state.toy.vy = -3 - Math.random() * 1.5;
+  }
+  if (c.moodTimer <= 0 && c.mood !== 'chasing' && c.mood !== 'sleepy') {
+    c.mood = 'idle';
+  }
+
+  // Movement based on state
+  if (c.mood === 'chasing' && toyOnScreen) {
+    const speed = 1.2;
+    c.vx = Math.sign(dx) * Math.min(Math.abs(dx) * 0.05, speed);
+    c.facing = dx > 0 ? 1 : -1;
+    c.walkPhase += dt * 0.012;
+  } else if (c.mood === 'batting') {
+    c.vx *= 0.5;
+  } else {
+    c.vx *= 0.85;
+    c.walkPhase *= 0.9;
+  }
+
+  c.x += c.vx;
+  // Keep cat on ground bounds
+  c.x = Math.max(20, Math.min(GRID_W - 20, c.x));
+}
+
+// ---------- Toy physics ----------
+function updateToy(dt) {
+  const t = state.toy;
+  if (!t.active || t.held) return;
+
+  t.vy += GRAVITY;
+  t.x += t.vx;
+  t.y += t.vy;
+  t.spinning += t.vx * 0.06;
+
+  // Floor collision
+  if (t.y > GROUND_Y) {
+    t.y = GROUND_Y;
+    t.vy *= -BOUNCE;
+    t.vx *= FRICTION;
+    if (Math.abs(t.vy) < 0.6) t.vy = 0;
+    if (Math.abs(t.vx) < 0.1) t.vx = 0;
+  }
+  // Wall collisions
+  if (t.x < 4)             { t.x = 4;             t.vx *= -BOUNCE; }
+  if (t.x > GRID_W - 4)    { t.x = GRID_W - 4;    t.vx *= -BOUNCE; }
+}
+
+// ---------- Drawing ----------
+// Helper: draw a filled rect in grid coordinates (gives that crisp pixel look)
+function rect(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(Math.round(px(x)), Math.round(px(y)), Math.round(px(w)), Math.round(px(h)));
+}
+
+function drawScene() {
+  // Sky / background
+  rect(0, 0, GRID_W, GRID_H, '#fafaf9');
+  // Ground band
+  rect(0, GROUND_Y + 8, GRID_W, GRID_H - GROUND_Y - 8, '#e7e5e4');
+  // Ground line
+  rect(0, GROUND_Y + 8, GRID_W, 1, '#d6d3d1');
+
+  // Subtle dots (texture)
+  ctx.fillStyle = '#d6d3d1';
+  for (let i = 0; i < 24; i++) {
+    const dx = (i * 41) % GRID_W;
+    rect(dx, GROUND_Y + 12 + (i % 3) * 4, 1, 1, '#d6d3d1');
+  }
+}
+
+function drawCat() {
+  const c = state.cat;
+  const f = c.facing;
+  const bobY = Math.sin(c.bob) * 1;          // breathing
+  const stepY = c.mood === 'chasing' ? Math.abs(Math.sin(c.walkPhase)) * 1.5 : 0;
+  const x = Math.round(c.x);
+  const y = Math.round(c.y + bobY - stepY);
+
+  // Shadow
+  rect(x - 14, y + 16, 28, 2, '#d6d3d1');
+
+  // Body (charcoal Siberian — dark grey/black)
+  rect(x - 12, y - 4, 24, 16, '#1c1917');
+  // Belly (lighter)
+  rect(x - 8, y + 4, 16, 8, '#44403c');
+
+  // Head
+  rect(x - 8 + (f * 4), y - 14, 16, 14, '#1c1917');
+  // Ears
+  rect(x - 8 + (f * 4), y - 18, 4, 4, '#1c1917');
+  rect(x + 4 + (f * 4), y - 18, 4, 4, '#1c1917');
+  // Inner ear (warm)
+  rect(x - 7 + (f * 4), y - 17, 2, 2, '#b24d37');
+  rect(x + 5 + (f * 4), y - 17, 2, 2, '#b24d37');
+
+  // Eyes (look toward toy if chasing/curious)
+  let eyeOffset = 0;
+  if ((c.mood === 'chasing' || c.mood === 'curious') && state.toy.active) {
+    eyeOffset = state.toy.x > c.x ? 1 : -1;
+  } else {
+    eyeOffset = f;
+  }
+
+  if (c.mood === 'batting') {
+    // Squinted eyes when batting
+    rect(x - 4 + (f * 4), y - 10, 3, 1, '#fafaf9');
+    rect(x + 1 + (f * 4), y - 10, 3, 1, '#fafaf9');
+  } else {
+    // Normal eyes
+    rect(x - 4 + (f * 4), y - 11, 3, 3, '#fafaf9');
+    rect(x + 1 + (f * 4), y - 11, 3, 3, '#fafaf9');
+    // Pupils
+    rect(x - 4 + (f * 4) + 1 + eyeOffset, y - 10, 1, 2, '#1c1917');
+    rect(x + 1 + (f * 4) + 1 + eyeOffset, y - 10, 1, 2, '#1c1917');
+  }
+
+  // Nose
+  rect(x - 1 + (f * 4), y - 6, 2, 1, '#b24d37');
+
+  // Whiskers (tiny lines)
+  rect(x - 7 + (f * 4), y - 5, 3, 1, '#78716c');
+  rect(x + 4 + (f * 4), y - 5, 3, 1, '#78716c');
+
+  // Legs (simple animation when chasing)
+  const legSwing = c.mood === 'chasing' ? Math.sin(c.walkPhase) * 1 : 0;
+  rect(x - 10, y + 12, 4, 6 - Math.abs(legSwing), '#1c1917');
+  rect(x + 6,  y + 12, 4, 6 + Math.abs(legSwing), '#1c1917');
+
+  // Tail
+  const tailWag = Math.sin(c.bob * 1.5) * 3;
+  rect(x - 14 * f - (f === -1 ? -2 : 0), y - 2 + tailWag, 6, 3, '#1c1917');
+}
+
+function drawToy() {
+  const t = state.toy;
+  if (!t.active && !t.held) return;
+  const x = Math.round(t.x);
+  const y = Math.round(t.y);
+
+  // Shadow
+  if (!t.held) {
+    const shadowAlpha = Math.max(0, 1 - (GROUND_Y - y) / 80);
+    ctx.fillStyle = `rgba(120,113,108,${0.4 * shadowAlpha})`;
+    ctx.fillRect(Math.round(px(x - 4)), Math.round(px(GROUND_Y + 7)), Math.round(px(8)), Math.round(px(1)));
+  }
+
+  switch (t.type) {
+    case 'yarn':    drawYarn(x, y, t.spinning); break;
+    case 'mouse':   drawMouse(x, y, t.vx); break;
+    case 'feather': drawFeather(x, y, t.spinning); break;
+    case 'fish':    drawFish(x, y, t.vx); break;
+  }
+}
+
+function drawYarn(x, y, spin) {
+  // Yarn ball — warm beige/red palette to match Una/portfolio brand
+  rect(x - 4, y - 4, 8, 8, '#b24d37');
+  rect(x - 3, y - 3, 6, 6, '#c8634d');
+  // Wrapping lines (rotate based on spin)
+  const s = Math.floor(spin) % 4;
+  if (s === 0) rect(x - 4, y - 1, 8, 1, '#7a3525');
+  if (s === 1) rect(x - 3, y - 3, 1, 6, '#7a3525');
+  if (s === 2) rect(x - 4, y + 1, 8, 1, '#7a3525');
+  if (s === 3) rect(x + 2, y - 3, 1, 6, '#7a3525');
+  // Trailing thread
+  rect(x + 4, y, 4, 1, '#b24d37');
+}
+
+function drawMouse(x, y, vx) {
+  const f = vx >= 0 ? 1 : -1;
+  // Body
+  rect(x - 4, y - 2, 8, 5, '#78716c');
+  // Head
+  rect(x - 6 * f - (f === -1 ? -1 : 0), y - 2, 3, 4, '#78716c');
+  // Ear
+  rect(x - 5 * f - (f === -1 ? -1 : 0), y - 4, 2, 2, '#78716c');
+  // Eye
+  rect(x - 5 * f - (f === -1 ? -1 : 0), y - 1, 1, 1, '#1c1917');
+  // Tail
+  rect(x + 3 * f, y, 3, 1, '#78716c');
+}
+
+function drawFeather(x, y, spin) {
+  const angle = Math.sin(spin * 0.3) * 4;
+  // Quill
+  rect(x, y - 6 + angle, 1, 12, '#44403c');
+  // Plumes
+  rect(x - 3, y - 5 + angle, 3, 1, '#a8a29e');
+  rect(x - 4, y - 3 + angle, 4, 1, '#a8a29e');
+  rect(x - 5, y - 1 + angle, 5, 1, '#a8a29e');
+  rect(x + 1, y - 5 + angle, 3, 1, '#a8a29e');
+  rect(x + 1, y - 3 + angle, 4, 1, '#a8a29e');
+  rect(x + 1, y - 1 + angle, 5, 1, '#a8a29e');
+}
+
+function drawFish(x, y, vx) {
+  const f = vx >= 0 ? 1 : -1;
+  // Body
+  rect(x - 4, y - 2, 8, 4, '#70674b');
+  rect(x - 3, y - 3, 6, 6, '#70674b');
+  // Eye
+  rect(x - 3 * f - (f === -1 ? -1 : 0), y - 1, 1, 1, '#1c1917');
+  // Tail
+  rect(x + 4 * f, y - 3, 1, 6, '#70674b');
+  rect(x + 5 * f, y - 4, 1, 8, '#70674b');
+}
+
+// ---------- Game loop ----------
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(40, now - last);
+  last = now;
+
+  updateCat(dt);
+  updateToy(dt);
+
+  drawScene();
+  drawToy();
+  drawCat();
+
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+
+</body>
+</html>

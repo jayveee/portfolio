@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joanna Veloria — Portfolio</title>
+  <meta name="description" content="Selected works by Joanna Veloria." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Saans (Displaay) — Personal Use trial */
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Heavy.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Heavy.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans Mono'; src: url('fonts/SaansMono-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans Mono'; src: url('fonts/SaansMono-TRIAL-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+
+    :root {
+      --stone-50:  #fafaf9;
+      --stone-100: #f5f5f4;
+      --stone-200: #e7e5e4;
+      --stone-300: #d6d3d1;
+      --stone-500: #78716c;
+      --stone-700: #44403c;
+      --stone-900: #1c1917;
+      --neutral-200: #e5e5e5;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Saans', ui-sans-serif, system-ui, sans-serif;
+      background: var(--stone-50);
+      color: var(--stone-900);
+    }
+    .mono { font-family: 'Saans Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .display {
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 0.92;
+    }
+    .marquee-text { font-size: clamp(3.5rem, 14vw, 14rem); }
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .hairline { background: var(--stone-900); height: 1px; }
+    .grid-line { border-color: var(--stone-200); }
+    .project-tile { background: var(--stone-100); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+    .project-tile:hover { transform: translateY(-6px); }
+    .project-tile .label { transition: opacity .4s ease; }
+    @keyframes scroll-x {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee { animation: scroll-x 40s linear infinite; }
+    ::selection { background: var(--stone-900); color: var(--stone-50); }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top bar -->
+  <header class="fixed top-0 inset-x-0 z-50 mix-blend-difference">
+    <div class="max-w-[1600px] mx-auto px-6 sm:px-10 h-20 flex items-center justify-between text-stone-50">
+      <a href="#top" class="mono text-xs tracking-[0.15em] uppercase font-medium">Joanna Veloria</a>
+      <nav class="hidden md:flex items-center gap-10 mono text-xs tracking-[0.15em] uppercase">
+        <a href="#work" class="hover:opacity-60 transition">Work</a>
+        <a href="#about" class="hover:opacity-60 transition">About</a>
+        <a href="#contact" class="hover:opacity-60 transition">Contact</a>
+      </nav>
+      <a href="#contact" class="md:hidden mono text-xs uppercase tracking-[0.15em]">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="top" class="pt-36 sm:pt-44 pb-16 sm:pb-24 px-6 sm:px-10">
+    <div class="max-w-[1600px] mx-auto">
+      <!-- Meta row -->
+      <div class="flex justify-between items-end mono text-xs tracking-[0.15em] uppercase text-stone-500 mb-12 sm:mb-20">
+        <span>Portfolio — 2026</span>
+        <span class="hidden sm:inline">Designer &nbsp;·&nbsp; Brand &nbsp;·&nbsp; Web</span>
+        <span>[01 / 04]</span>
+      </div>
+
+      <!-- Massive title -->
+      <h1 class="display fade-in text-[18vw] sm:text-[14vw] leading-[0.9]">
+        Joanna<br/>
+        <span class="text-stone-300">— a designer</span><br/>
+        Veloria.
+      </h1>
+
+      <!-- Sub row -->
+      <div class="mt-12 sm:mt-20 grid sm:grid-cols-12 gap-8 fade-in">
+        <p class="sm:col-span-5 sm:col-start-7 text-base sm:text-lg leading-relaxed text-stone-700 max-w-md">
+          Independent designer working at the intersection of brand, type, and interface. Currently based in [your city], collaborating with studios and ambitious teams.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <section class="border-y grid-line py-6 overflow-hidden whitespace-nowrap">
+    <div class="marquee inline-block">
+      <span class="display text-5xl sm:text-7xl text-stone-900 px-8">Selected work</span>
+      <span class="text-5xl sm:text-7xl text-stone-300 px-8">✦</span>
+      <span class="display text-5xl sm:text-7xl text-stone-900 px-8">Selected work</span>
+      <span class="text-5xl sm:text-7xl text-stone-300 px-8">✦</span>
+      <span class="display text-5xl sm:text-7xl text-stone-900 px-8">Selected work</span>
+      <span class="text-5xl sm:text-7xl text-stone-300 px-8">✦</span>
+      <span class="display text-5xl sm:text-7xl text-stone-900 px-8">Selected work</span>
+      <span class="text-5xl sm:text-7xl text-stone-300 px-8">✦</span>
+    </div>
+  </section>
+
+  <!-- Work / Projects -->
+  <section id="work" class="px-6 sm:px-10 py-20 sm:py-28">
+    <div class="max-w-[1600px] mx-auto">
+      <div class="grid sm:grid-cols-12 gap-6 mb-16">
+        <h2 class="display text-5xl sm:text-7xl sm:col-span-6 fade-in">
+          Works,<br/>
+          <span class="font-normal text-stone-300">selected.</span>
+        </h2>
+        <p class="sm:col-span-4 sm:col-start-9 text-sm leading-relaxed text-stone-500 self-end fade-in">
+          A small selection of projects from the last few years. More available on request.
+        </p>
+      </div>
+
+      <!-- Projects grid -->
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-16 sm:gap-y-24" id="projects-grid"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="bg-stone-900 text-stone-50 px-6 sm:px-10 py-24 sm:py-36">
+    <div class="max-w-[1600px] mx-auto grid sm:grid-cols-12 gap-8">
+      <div class="sm:col-span-2">
+        <p class="mono text-xs tracking-[0.2em] uppercase text-stone-500">About</p>
+      </div>
+      <div class="sm:col-span-9 space-y-8 fade-in">
+        <p class="display text-3xl sm:text-5xl leading-[1.1]">
+          I help teams ship work that feels considered, with a bias toward clarity, restraint, and craft.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-8 max-w-3xl pt-8 border-t border-stone-700">
+          <div>
+            <p class="mono text-xs tracking-[0.15em] uppercase text-stone-500 mb-3">Practice</p>
+            <p class="text-stone-300 leading-relaxed">Brand identity, web design, art direction, and type-driven systems for studios and in-house teams.</p>
+          </div>
+          <div>
+            <p class="mono text-xs tracking-[0.15em] uppercase text-stone-500 mb-3">Selected clients</p>
+            <p class="text-stone-300 leading-relaxed">Una, [Client], [Client], [Client], [Client], [Client].</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="px-6 sm:px-10 py-24 sm:py-36">
+    <div class="max-w-[1600px] mx-auto grid sm:grid-cols-12 gap-8 items-end">
+      <div class="sm:col-span-8 fade-in">
+        <p class="mono text-xs tracking-[0.2em] uppercase text-stone-500 mb-6">Get in touch</p>
+        <h2 class="display text-6xl sm:text-9xl">
+          Let's <span class="text-stone-500">make</span><br/>
+          something.
+        </h2>
+      </div>
+      <div class="sm:col-span-4 space-y-6 fade-in">
+        <a href="mailto:joannavee@gmail.com" class="block group">
+          <p class="mono text-xs tracking-[0.15em] uppercase text-stone-500 mb-2">Email</p>
+          <p class="text-lg sm:text-xl group-hover:opacity-50 transition">joannavee@gmail.com →</p>
+        </a>
+        <div class="pt-6 border-t grid-line">
+          <p class="mono text-xs tracking-[0.15em] uppercase text-stone-500 mb-2">Elsewhere</p>
+          <div class="flex gap-4 text-base">
+            <a href="#" class="hover:opacity-50 transition">LinkedIn</a>
+            <span class="text-stone-300">/</span>
+            <a href="#" class="hover:opacity-50 transition">Instagram</a>
+            <span class="text-stone-300">/</span>
+            <a href="#" class="hover:opacity-50 transition">Read.cv</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t grid-line px-6 sm:px-10 py-8">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap justify-between items-center gap-4 mono text-xs tracking-[0.15em] uppercase text-stone-500">
+      <span>© <span id="year"></span> Joanna Veloria</span>
+      <span class="hidden sm:inline">All rights reserved</span>
+      <a href="#top" class="hover:text-stone-900 transition">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const projects = [
+      { num: '01', title: 'Una App',         tag: 'Brand · Product',   year: '2026', tone: 'bg-stone-200',  accent: 'text-stone-900' },
+      { num: '02', title: 'Project Two',     tag: 'Identity',          year: '2025', tone: 'bg-stone-900',  accent: 'text-stone-50'  },
+      { num: '03', title: 'Project Three',   tag: 'Editorial · Web',   year: '2025', tone: 'bg-stone-300',  accent: 'text-stone-900' },
+      { num: '04', title: 'Project Four',    tag: 'Type · System',     year: '2024', tone: 'bg-stone-100',  accent: 'text-stone-900' }
+    ];
+
+    const grid = document.getElementById('projects-grid');
+    grid.innerHTML = projects.map((p, i) => `
+      <a href="#" class="project-tile fade-in group block ${p.tone} aspect-[4/5] relative overflow-hidden">
+        <div class="absolute inset-0 p-8 flex flex-col justify-between ${p.accent}">
+          <div class="flex justify-between items-start mono text-xs tracking-[0.15em] uppercase opacity-70">
+            <span>${p.num}</span>
+            <span>${p.year}</span>
+          </div>
+          <div>
+            <p class="mono text-xs tracking-[0.15em] uppercase opacity-70 mb-3">${p.tag}</p>
+            <h3 class="display text-3xl sm:text-5xl">${p.title}</h3>
+          </div>
+        </div>
+      </a>
+    `).join('');
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
