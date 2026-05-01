@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Personal portfolio — bio, projects, and contact." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0f172a',
+            accent: '#6366f1',
+            accentHover: '#4f46e5',
+            soft: '#f8fafc'
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="bg-soft text-ink antialiased">
+
+  <!-- Nav -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-slate-200">
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#top" class="font-bold text-lg tracking-tight">Your<span class="text-accent">.</span>Name</a>
+      <button id="menuBtn" aria-label="Toggle menu" class="md:hidden p-2 rounded hover:bg-slate-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <li><a href="#bio" class="hover:text-accent transition">Bio</a></li>
+        <li><a href="#projects" class="hover:text-accent transition">Projects</a></li>
+        <li><a href="#contact" class="hover:text-accent transition">Contact</a></li>
+        <li><a href="#contact" class="px-4 py-2 rounded-full bg-ink text-white hover:bg-accent transition">Hire me</a></li>
+      </ul>
+    </nav>
+    <ul id="mobileMenu" class="md:hidden hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3 text-sm font-medium">
+      <li><a href="#bio" class="block hover:text-accent">Bio</a></li>
+      <li><a href="#projects" class="block hover:text-accent">Projects</a></li>
+      <li><a href="#contact" class="block hover:text-accent">Contact</a></li>
+    </ul>
+  </header>
+
+  <!-- Hero / Bio -->
+  <section id="top" class="pt-32 pb-20 px-6">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div class="fade-in">
+        <p class="text-accent font-semibold mb-3">Hello, I'm</p>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+          Your Name<br/>
+          <span class="text-slate-500">building thoughtful products.</span>
+        </h1>
+        <p class="mt-6 text-lg text-slate-600 max-w-lg">
+          I'm a [your role] focused on [what you do]. I love turning complex problems into clean, useful experiences.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#projects" class="px-5 py-3 rounded-full bg-accent text-white font-medium hover:bg-accentHover transition">View work</a>
+          <a href="#contact" class="px-5 py-3 rounded-full border border-slate-300 font-medium hover:border-ink transition">Get in touch</a>
+        </div>
+      </div>
+      <div class="fade-in flex justify-center md:justify-end">
+        <div class="relative">
+          <div class="absolute -inset-4 rounded-full bg-gradient-to-br from-accent to-pink-400 blur-2xl opacity-30"></div>
+          <div class="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center text-7xl font-extrabold text-slate-500 shadow-xl">
+            YN
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bio detail -->
+  <section id="bio" class="py-20 px-6 bg-white border-y border-slate-200">
+    <div class="max-w-4xl mx-auto fade-in">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">About</h2>
+      <p class="mt-6 text-lg text-slate-600 leading-relaxed">
+        Write a paragraph or two about yourself: where you've worked, what you specialize in, and what you're looking
+        for next. Keep it conversational. Mention the kinds of problems that energize you and the tools you reach for.
+      </p>
+      <div class="mt-10 grid sm:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-soft border border-slate-200">
+          <h3 class="font-semibold">Design</h3>
+          <p class="text-sm text-slate-600 mt-2">Figma, prototyping, design systems.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-soft border border-slate-200">
+          <h3 class="font-semibold">Engineering</h3>
+          <p class="text-sm text-slate-600 mt-2">TypeScript, React, Node, Tailwind.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-soft border border-slate-200">
+          <h3 class="font-semibold">Strategy</h3>
+          <p class="text-sm text-slate-600 mt-2">Product thinking, roadmaps, research.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-in flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Selected projects</h2>
+          <p class="text-slate-600 mt-2">A handful of things I'm proud of.</p>
+        </div>
+        <a href="#contact" class="text-accent font-medium hover:text-accentHover transition">More on request →</a>
+      </div>
+
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projectsGrid">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 px-6 bg-ink text-white">
+    <div class="max-w-3xl mx-auto fade-in text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Let's work together</h2>
+      <p class="mt-4 text-slate-300">Have a project in mind, or just want to say hi? Drop a note.</p>
+
+      <form id="contactForm" class="mt-10 grid gap-4 text-left">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <label class="block">
+            <span class="text-sm text-slate-300">Name</span>
+            <input required type="text" name="name" class="mt-1 w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Jane Doe" />
+          </label>
+          <label class="block">
+            <span class="text-sm text-slate-300">Email</span>
+            <input required type="email" name="email" class="mt-1 w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent" placeholder="jane@example.com" />
+          </label>
+        </div>
+        <label class="block">
+          <span class="text-sm text-slate-300">Message</span>
+          <textarea required name="message" rows="5" class="mt-1 w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Tell me about your project..."></textarea>
+        </label>
+        <button type="submit" class="justify-self-start px-6 py-3 rounded-full bg-accent hover:bg-accentHover font-medium transition">Send message</button>
+        <p id="formStatus" class="text-sm text-slate-300 hidden"></p>
+      </form>
+
+      <div class="mt-12 flex justify-center gap-6 text-slate-300">
+        <a href="mailto:you@example.com" class="hover:text-white transition">Email</a>
+        <a href="https://github.com/" target="_blank" rel="noopener" class="hover:text-white transition">GitHub</a>
+        <a href="https://linkedin.com/" target="_blank" rel="noopener" class="hover:text-white transition">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-8 px-6 bg-ink text-slate-400 text-sm text-center border-t border-white/10">
+    © <span id="year"></span> Your Name. Built with Tailwind CSS.
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    // Projects data
+    const projects = [
+      { title: 'Project One', tag: 'Web App', desc: 'Short description of what it does and the impact it had.', link: '#', gradient: 'from-indigo-500 to-pink-500' },
+      { title: 'Project Two', tag: 'Mobile', desc: 'A native mobile experience built with React Native.', link: '#', gradient: 'from-emerald-500 to-cyan-500' },
+      { title: 'Project Three', tag: 'Design System', desc: 'Reusable component library powering five products.', link: '#', gradient: 'from-amber-500 to-rose-500' },
+      { title: 'Project Four', tag: 'Open Source', desc: 'A small library that solves a specific problem well.', link: '#', gradient: 'from-violet-500 to-fuchsia-500' },
+      { title: 'Project Five', tag: 'Brand', desc: 'Identity and site for a fast-growing startup.', link: '#', gradient: 'from-sky-500 to-indigo-500' },
+      { title: 'Project Six', tag: 'Experiment', desc: 'A weekend prototype exploring an idea.', link: '#', gradient: 'from-rose-500 to-orange-500' },
+    ];
+
+    const grid = document.getElementById('projectsGrid');
+    grid.innerHTML = projects.map(p => `
+      <a href="${p.link}" class="fade-in group rounded-2xl overflow-hidden border border-slate-200 bg-white hover:shadow-xl hover:-translate-y-1 transition">
+        <div class="aspect-[16/10] bg-gradient-to-br ${p.gradient} relative">
+          <span class="absolute top-3 left-3 text-xs font-semibold bg-white/90 text-ink px-2 py-1 rounded">${p.tag}</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg group-hover:text-accent transition">${p.title}</h3>
+          <p class="text-sm text-slate-600 mt-1">${p.desc}</p>
+        </div>
+      </a>
+    `).join('');
+
+    // Fade-in observer
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+    // Contact form (client-side only — wire up your own backend / Formspree / etc.)
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      console.log('Contact submission:', data);
+      status.textContent = "Thanks! I'll get back to you soon.";
+      status.classList.remove('hidden');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
