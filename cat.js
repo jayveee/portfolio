@@ -729,6 +729,7 @@
                 // collect itself. huntPause extension means the target-pick fires
                 // again once the cat is idle, giving a natural wake → sit → walk → jump.
                 c.mood = 'waking'; c.moodTimer = 700;
+                c.idleTimer = 0; // prevent immediate re-sleep after waking
                 c.huntPause = 2000 + Math.random() * 1500; // 2–3.5s post-wake pause
               } else {
                 c.huntTarget = { platform: pick, x: targetX, arrivedAt: 0 };
