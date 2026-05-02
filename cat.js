@@ -724,11 +724,15 @@
             if (higher.length > 0) {
               const pick = higher.reduce((best, p) => p.y > best.y ? p : best);
               const targetX = pick.x + 20 + Math.random() * Math.max(0, pick.w - 40);
-              // If cat was resting, play a brief waking animation before launching
               if (c.mood === 'sleeping' || c.mood === 'lying') {
-                c.mood = 'waking'; c.moodTimer = 400;
+                // Wake first. Don't set huntTarget yet — let the cat sit up and
+                // collect itself. huntPause extension means the target-pick fires
+                // again once the cat is idle, giving a natural wake → sit → walk → jump.
+                c.mood = 'waking'; c.moodTimer = 700;
+                c.huntPause = 2000 + Math.random() * 1500; // 2–3.5s post-wake pause
+              } else {
+                c.huntTarget = { platform: pick, x: targetX, arrivedAt: 0 };
               }
-              c.huntTarget = { platform: pick, x: targetX, arrivedAt: 0 };
             } else if (c.platform && c.wanderX == null) {
               // Already on the highest reachable platform — step off and descend.
               // Only assign wanderX once; without the null-guard it reassigns every
@@ -736,20 +740,21 @@
               // Set descending=true so the cat falls through intermediate platforms
               // all the way to the ground instead of re-climbing from each level.
               if (c.huntPause <= 0) {
-                // Wake the cat if it was resting so the movement code isn't blocked
-                // by the isResting guard — without this the cat stays asleep on the
-                // top platform indefinitely instead of walking off the edge.
                 if (c.mood === 'sleeping' || c.mood === 'lying') {
-                  c.mood = 'waking'; c.moodTimer = 500;
-                  c.idleTimer = 0; // prevent re-sleeping immediately after waking
+                  // Wake first. wanderX stays null so the descent path re-fires once
+                  // the cat is idle — gives the natural sit-up → walk → step-off sequence.
+                  c.mood = 'waking'; c.moodTimer = 700;
+                  c.huntPause = 2000 + Math.random() * 1500;
+                  c.idleTimer = 0;
+                } else {
+                  const p = c.platform;
+                  const exitDir = Math.random() > 0.5 ? 1 : -1;
+                  c.wanderX = exitDir > 0
+                    ? Math.min(p.x + p.w + 80 + Math.random() * 150, GRID_W - 20)
+                    : Math.max(p.x - 80 - Math.random() * 150, 20);
+                  c.huntPause = 600;
+                  c.descending = true;
                 }
-                const p = c.platform;
-                const exitDir = Math.random() > 0.5 ? 1 : -1;
-                c.wanderX = exitDir > 0
-                  ? Math.min(p.x + p.w + 80 + Math.random() * 150, GRID_W - 20)
-                  : Math.max(p.x - 80 - Math.random() * 150, 20);
-                c.huntPause = 600; // brief pause then step off (longer if waking)
-                c.descending = true;
               }
             }
           }
