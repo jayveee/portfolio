@@ -200,6 +200,7 @@
             const rects = range.getClientRects();
             for (const r of rects) {
               if (r.width <= 0 || r.height <= 0) continue;
+              if (r.right < 0 || r.left > canvasRect.width) continue; // skip off-screen chars (overflow-hidden text)
               // r.top is the font bounding box top; baseline = r.top + fontBBxAscent
               const baseline = r.top + fontBBxAscent;
               const ink = measureInk(ch, fontShorthand);
