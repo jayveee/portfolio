@@ -341,12 +341,12 @@
       ctx.fillRect(Math.round(px(x)), Math.round(px(y)), Math.round(px(w)), Math.round(px(h)));
     }
 
-    function drawZ(x, y) {
-      rect(x,   y,   3, 1, '#1c1917');
-      rect(x+2, y+1, 1, 1, '#1c1917');
-      rect(x+1, y+2, 1, 1, '#1c1917');
-      rect(x,   y+3, 1, 1, '#1c1917');
-      rect(x,   y+4, 3, 1, '#1c1917');
+    function drawZ(x, y, color = '#1c1917') {
+      rect(x,   y,   3, 1, color);
+      rect(x+2, y+1, 1, 1, color);
+      rect(x+1, y+2, 1, 1, color);
+      rect(x,   y+3, 1, 1, color);
+      rect(x,   y+4, 3, 1, color);
     }
     function drawHeart(x, y) {
       rect(x+1, y,   1, 1, '#e07866');
@@ -412,7 +412,14 @@
       const isLow = c.anim === 'sleep' || c.anim === 'liedown';
       const headTop = Math.round(c.y) + (isLow ? -6 : -16);
       if (c.mood === 'sleeping') {
-        // Three Zs drift up from right at the head
+        // Three Zs drift up from right at the head.
+        // On dark text platforms ("Under" / "for now." = edge indices 0 & 2), the
+        // default dark Zzz is invisible — use stone-200 so it reads against the text.
+        const sortedP = catPlatforms.slice().sort((a, b) => a.y - b.y);
+        const pIdx = c.platform
+          ? sortedP.findIndex(sp => Math.abs(sp.y - c.platform.y) <= 3)
+          : -1;
+        const zColor = (pIdx === 0 || pIdx === 2) ? '#e7e5e4' : '#1c1917';
         const t = performance.now();
         for (let i = 0; i < 3; i++) {
           const phase = ((t / 1400) + i / 3) % 1;
@@ -420,6 +427,7 @@
           drawZ(
             Math.round(x + i * 2 + Math.sin(phase * Math.PI * 2)),
             Math.round(headTop - 1 - phase * 5),
+            zColor,
           );
         }
         ctx.globalAlpha = 1;
@@ -771,7 +779,14 @@
                 const p = c.platform;
                 c.wanderX = p.x + 10 + Math.random() * Math.max(0, p.w - 20);
                 c.idleTimer = 0; // fresh idle so groom/lie can fire from this arrival
-                c.huntPause = 3000 + Math.random() * 3000; // 3–6s exploration pause — long enough to groom/lie
+                // "construction," (middle platform, gray text) gets a long stay so the
+                // cat can actually lie and sleep there. "Under" and "for now." (dark text,
+                // invisible Zzz) get a short stay that naturally prevents sleeping.
+                const sortedForPause = catPlatforms.slice().sort((a, b) => a.y - b.y);
+                const pIdxArrival = sortedForPause.findIndex(sp => Math.abs(sp.y - p.y) <= 3);
+                c.huntPause = pIdxArrival === 1
+                  ? 12000 + Math.random() * 8000  // 12–20s on construction, — allows lie + sleep
+                  : 3000 + Math.random() * 3000;  // 3–6s on Under/for now. — too short to sleep
               }
             } else {
               huntAction = 'approaching';
