@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joanna Veloria — Coming soon</title>
+  <meta name="description" content="A new portfolio by Joanna Veloria — currently in the works." />
+  <meta name="robots" content="noindex" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Heavy.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Heavy.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans Mono'; src: url('fonts/SaansMono-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+
+    :root {
+      --stone-50:  #fafaf9;
+      --stone-200: #e7e5e4;
+      --stone-500: #78716c;
+      --stone-700: #44403c;
+      --stone-900: #1c1917;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Saans', ui-sans-serif, system-ui, sans-serif;
+      background: var(--stone-50);
+      color: var(--stone-900);
+      overflow-x: hidden;
+    }
+    .mono { font-family: 'Saans Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .display { font-weight: 800; letter-spacing: -0.045em; line-height: 0.9; }
+    ::selection { background: var(--stone-900); color: var(--stone-50); }
+
+    @keyframes blink { 0%, 60% { opacity: 1; } 60.1%, 100% { opacity: 0; } }
+    .blink { animation: blink 1.4s steps(1, end) infinite; }
+
+    @keyframes scroll-x {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee { animation: scroll-x 50s linear infinite; }
+
+    .fade-in { opacity: 0; transform: translateY(16px); animation: fadeUp 1.2s cubic-bezier(.2,.7,.2,1) forwards; }
+    .fade-in.delay-1 { animation-delay: 0.1s; }
+    .fade-in.delay-2 { animation-delay: 0.3s; }
+    .fade-in.delay-3 { animation-delay: 0.5s; }
+    .fade-in.delay-4 { animation-delay: 0.7s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    #cat-canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      margin: 0 auto;
+      cursor: grab;
+    }
+    #cat-canvas:active { cursor: grabbing; }
+
+    .toy-btn {
+      transition: all .15s ease;
+      background: var(--stone-50);
+    }
+    .toy-btn:hover { color: var(--stone-900); }
+    /* High-specificity + !important so we beat Tailwind's text-stone-500 / border-stone-300 utilities */
+    button.toy-btn.active {
+      background-color: var(--stone-900) !important;
+      color: var(--stone-50) !important;
+      border-color: var(--stone-900) !important;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Top -->
+  <header class="px-6 sm:px-10 pt-8 sm:pt-10">
+    <div class="max-w-[1600px] mx-auto flex items-center justify-between mono text-xs tracking-[0.2em] uppercase text-stone-500">
+      <span class="fade-in delay-1">Joanna Veloria</span>
+      <span class="fade-in delay-1 flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-stone-900 blink"></span>
+        In progress
+      </span>
+    </div>
+  </header>
+
+  <!-- Center stage — bottom-aligned so the headline sits within the cat's jump reach -->
+  <main class="flex-1 flex flex-col justify-end px-6 sm:px-10 pt-16 sm:pt-24 pb-24">
+    <div class="max-w-[1600px] mx-auto w-full">
+
+      <h1 class="fade-in delay-2 display text-[18vw] sm:text-[14vw] leading-[0.88]">
+        Under<br/>
+        <span class="text-stone-300">construction,</span><br/>
+        for now.
+      </h1>
+
+      <!-- "In the meantime" line — LinkedIn + inline toy picker for the cat.
+           The whole row gets a stacking context above the canvas. The fade-in
+           animation applies a transform, which would otherwise trap children
+           in a sub-stacking-context BELOW the z-10 canvas. -->
+      <div style="position: relative; z-index: 20;" class="fade-in delay-3 mono text-xs tracking-[0.2em] uppercase text-stone-500 mt-8 sm:mt-10 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <span>In the meantime — visit my</span>
+        <a href="https://www.linkedin.com/in/joannaveloria/" target="_blank" rel="noopener" style="position: relative; z-index: 20;" class="text-stone-900 hover:opacity-50 transition">LinkedIn ↗</a>
+        <span>or play with the cat:</span>
+        <span class="flex gap-1" style="position: relative; z-index: 20;">
+          <button data-toy="yarn"    style="position: relative; z-index: 20;" class="toy-btn mono text-[10px] px-2 py-1 border border-stone-300 uppercase tracking-[0.15em] text-stone-500">Yarn</button>
+          <button data-toy="mouse"   style="position: relative; z-index: 20;" class="toy-btn mono text-[10px] px-2 py-1 border border-stone-300 uppercase tracking-[0.15em] text-stone-500">Mouse</button>
+          <button data-toy="feather" style="position: relative; z-index: 20;" class="toy-btn mono text-[10px] px-2 py-1 border border-stone-300 uppercase tracking-[0.15em] text-stone-500">Feather</button>
+          <button data-toy="fish"    style="position: relative; z-index: 20;" class="toy-btn mono text-[10px] px-2 py-1 border border-stone-300 uppercase tracking-[0.15em] text-stone-500">Fish</button>
+          <button data-toy="laser"   style="position: relative; z-index: 20;" class="toy-btn mono text-[10px] px-2 py-1 border border-stone-300 uppercase tracking-[0.15em] text-stone-500">Laser</button>
+          <button id="toy-clear" style="position: relative; z-index: 20; display: none;" class="mono text-[10px] px-2 py-1 border border-stone-300 uppercase tracking-[0.15em] text-stone-500 hover:text-stone-900 transition">Put away</button>
+        </span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Cat lives on a full-viewport canvas so toys can fly anywhere -->
+  <canvas id="cat-canvas" class="fixed inset-0 z-10"></canvas>
+
+  <script src="cat.js"></script>
+  <script>
+    CatGame.init({
+      canvas: document.getElementById('cat-canvas'),
+      scale: 2,                  // fixed pixel scale so the cat stays a sensible size
+      fitToWindow: true,         // canvas spans the full viewport
+      adaptiveWidth: true,
+      adaptiveHeight: true,
+      groundFromBottom: 12,      // cat walks 12 grid units above the viewport bottom
+      showBg: false,
+      showGround: false,
+      toys: true,
+      toyPicker: '.toy-btn',
+      obstacleSelector: 'h1',    // toys bounce off each character in the headline
+      obstaclePadding: 1,
+    });
+  </script>
+
+</body>
+</html>

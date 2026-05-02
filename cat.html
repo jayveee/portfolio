@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joanna Veloria — A cat to play with</title>
+  <meta name="robots" content="noindex" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans'; src: url('fonts/Saans-TRIAL-Heavy.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Saans Mono'; src: url('fonts/SaansMono-TRIAL-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+
+    body {
+      font-family: 'Saans', ui-sans-serif, system-ui, sans-serif;
+      background: #fafaf9;
+      color: #1c1917;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mono { font-family: 'Saans Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .display { font-weight: 800; letter-spacing: -0.04em; }
+
+    /* Pixelated rendering for the canvas — gives the 8-bit feel.
+       Width/height are set in JS to preserve the 320x180 aspect ratio
+       (otherwise the browser stretches the bitmap and squishes the art). */
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      cursor: grab;
+    }
+    canvas:active { cursor: grabbing; }
+
+    .toy-btn {
+      transition: all .15s ease;
+    }
+    .toy-btn.active {
+      background: #1c1917;
+      color: #fafaf9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top status -->
+  <header class="fixed top-0 inset-x-0 z-10 px-6 sm:px-10 pt-6 pointer-events-none">
+    <div class="max-w-[1600px] mx-auto flex items-center justify-between mono text-xs tracking-[0.2em] uppercase text-stone-500">
+      <a href="index.html" class="pointer-events-auto hover:text-stone-900 transition">← Back</a>
+      <span>Pet the cat</span>
+      <span>[v 0.1]</span>
+    </div>
+  </header>
+
+  <!-- Main canvas -->
+  <canvas id="game"></canvas>
+
+  <!-- Toy picker -->
+  <div class="fixed bottom-0 inset-x-0 z-10 px-6 sm:px-10 pb-6 pointer-events-none">
+    <div class="max-w-[1600px] mx-auto flex flex-col items-center gap-3">
+      <p class="mono text-xs tracking-[0.2em] uppercase text-stone-500">Pick a toy — click & drag to throw</p>
+      <div class="flex gap-2 pointer-events-auto">
+        <button data-toy="yarn"    class="toy-btn active mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Yarn</button>
+        <button data-toy="mouse"   class="toy-btn mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Mouse</button>
+        <button data-toy="feather" class="toy-btn mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Feather</button>
+        <button data-toy="fish"    class="toy-btn mono text-xs px-4 py-2 border border-stone-300 uppercase tracking-[0.15em]">Fish</button>
+      </div>
+    </div>
+  </div>
+
+<script src="cat.js"></script>
+<script>
+  CatGame.init({
+    canvas: document.getElementById('game'),
+    gridW: 320,
+    gridH: 180,
+    groundY: 152,
+    showBg: true,
+    showGround: true,
+    toys: true,
+    toyPicker: '.toy-btn',
+  });
+</script>
+
+</body>
+</html>
