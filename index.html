@@ -137,7 +137,7 @@
       showGround: false,
       toys: true,
       toyPicker: '.toy-btn',
-      obstacleSelector: 'h1',    // toys bounce off each character in the headline
+      obstacleSelector: window.innerWidth >= 640 ? 'h1' : null, // disable climbing on mobile
       obstaclePadding: 1,
     });
   </script>
