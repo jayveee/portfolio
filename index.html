@@ -137,7 +137,7 @@
       showGround: false,
       toys: true,
       toyPicker: '.toy-btn',
-      obstacleSelector: window.innerWidth >= 640 ? 'h1' : null, // disable climbing on mobile
+      obstacleSelector: window.innerWidth >= 640 && window.innerWidth < 1280 ? 'h1' : null, // only climb on tablet/small laptop
       obstaclePadding: 1,
     });
   </script>
