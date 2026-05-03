@@ -1049,7 +1049,10 @@
       }
       // Airborne: vx persists from triggerJump (no air control)
       c.x += c.vx;
-      c.x = Math.max(20, Math.min(GRID_W - 20, c.x));
+      // Skip wall clamp while cat is still entering from off-screen
+      if (c.x > 0 && c.x < GRID_W) {
+        c.x = Math.max(20, Math.min(GRID_W - 20, c.x));
+      }
       const actuallyMoving = Math.abs(c.x - prevX) > 0.1;
 
       // ---------- Vertical physics (jumping + landing on letters) ----------
