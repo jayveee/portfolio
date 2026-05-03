@@ -783,7 +783,7 @@
                 // Landed — explore this level before climbing further
                 c.huntTarget = null;
                 const p = c.platform;
-                c.wanderX = Math.max(50, Math.min(GRID_W - 50, p.x + 10 + Math.random() * Math.max(0, p.w - 20)));
+                c.wanderX = p.x + Math.random() * p.w;
                 c.idleTimer = 0; // fresh idle so groom/lie can fire from this arrival
                 // "construction," (middle platform, gray text) gets a long stay so the
                 // cat can actually lie and sleep there. "Under" and "for now." (dark text,
@@ -907,7 +907,7 @@
                 // Stay within the platform; clamp from canvas edges so cat doesn't park at the wall.
                 // Reset idleTimer so the cat walks around rather than lying at the first spot.
                 const p = c.platform;
-                c.wanderX = Math.max(50, Math.min(GRID_W - 50, p.x + 10 + Math.random() * Math.max(0, p.w - 20)));
+                c.wanderX = p.x + Math.random() * p.w;
                 c.idleTimer = 0;
               } else if (groundExploring) {
                 // During ground exploration strongly bias toward cross-viewport walks
