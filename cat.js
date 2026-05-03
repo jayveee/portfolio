@@ -276,7 +276,7 @@
         // Start off-screen and walk in from a random side so Pixel makes an entrance
         // after the content has faded in (~1.5s). wanderX draws the cat toward the
         // content area; existing movement code handles the rest.
-        x: _enterFromLeft ? -15 : GRID_W + 15,
+        x: _enterFromLeft ? -80 : GRID_W + 80,
         y: GROUND_Y - 12,         // sprite feet land near GROUND_Y
         vx: 0, vy: 0,
         facing: _enterFromLeft ? 1 : -1,
