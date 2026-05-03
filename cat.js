@@ -775,17 +775,17 @@
       // Decay any active grooming timer
       if (c.groomTimer > 0) c.groomTimer -= dt;
       if (c.pounceTimer > 0) c.pounceTimer -= dt;
-      // Meow timer — fires randomly, only when idle/resting (not chasing toys)
+      // Meow timer — fires randomly when idle; fade always ticks so bubble can't get stuck
       const MEOWS = ['meow', 'purr~', 'mrrp!', 'nya~', 'mew', 'purrr', '*chirp*'];
+      if (c.meowFade > 0) c.meowFade -= dt;
+      else c.meow = null;
       if (c.mood !== 'chasing' && c.mood !== 'batting') {
         c.meowTimer -= dt;
         if (c.meowTimer <= 0) {
           c.meow = MEOWS[Math.floor(Math.random() * MEOWS.length)];
           c.meowFade = 2200;
-          c.meowTimer = 18000 + Math.random() * 22000; // next meow in 18–40s
+          c.meowTimer = 18000 + Math.random() * 22000;
         }
-        if (c.meowFade > 0) c.meowFade -= dt;
-        else c.meow = null;
       }
 
       // ----- Autonomous platform climbing (cat explores each level in order) -----
