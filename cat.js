@@ -249,7 +249,7 @@
       for (const g of lines.values()) {
         catPlatforms.push({
           x: g.xMin,
-          y: g.yMax + 4, // 4 units below ink bottom compensates for sprite foot padding
+          y: g.yMax + 8, // 8 units below ink bottom — accounts for sprite bottom padding so visual paws align with letter base
           w: g.xMax - g.xMin,
           h: 2,
         });
@@ -1196,12 +1196,12 @@
       const anim = ANIMS[c.anim];
       if (!anim || !anim.img.complete || !anim.img.naturalWidth) return;
 
-      const shadowW = (c.mood === 'lying' || c.mood === 'sleeping') ? 22 : 28;
-      // Shadow lives on whatever surface the cat is standing on (a letter
-      // platform or the ground). When airborne, draw it on the ground below
-      // so the player can see where the cat will land.
-      const shadowY = c.platform ? c.platform.y + 1 : GROUND_Y + 7;
-      rect(Math.round(c.x) - shadowW / 2, shadowY, shadowW, 1, '#d6d3d1');
+      // Shadow only on the ground — on letter platforms it's invisible on dark
+      // text and redundant on gray, and the letter itself grounds the cat visually.
+      if (!c.platform) {
+        const shadowW = (c.mood === 'lying' || c.mood === 'sleeping') ? 22 : 28;
+        rect(Math.round(c.x) - shadowW / 2, GROUND_Y + 7, shadowW, 1, '#d6d3d1');
+      }
 
       const sx = c.frame * FRAME_W;
       const drawX = Math.round(c.x) - FRAME_W / 2;
