@@ -444,7 +444,7 @@
           ctx.globalAlpha = 1 - phase;
           drawZ(
             Math.round(x + i * 2 + Math.sin(phase * Math.PI * 2)),
-            Math.round(headTop + 3 - phase * 5),
+            Math.round(headTop - 4 - phase * 5),
             zColor,
           );
         }
