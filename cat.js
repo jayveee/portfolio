@@ -1317,22 +1317,6 @@
       drawCat();
       drawMoodIndicator();
       drawParticles();
-      // DEBUG: platform + obstacle bounds
-      ctx.save();
-      for (const r of obstacleRects) {
-        ctx.strokeStyle = 'rgba(0,120,255,0.4)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(Math.round(px(r.x)), Math.round(px(r.y)), Math.round(px(r.w)), Math.round(px(r.h)));
-      }
-      for (const p of catPlatforms) {
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(Math.round(px(p.x)), Math.round(px(p.y)));
-        ctx.lineTo(Math.round(px(p.x + p.w)), Math.round(px(p.y)));
-        ctx.stroke();
-      }
-      ctx.restore();
       // Show "Put away" only while a toy is in use
       if (_clearBtn) {
         const shouldShow = state.toy.active || state.toy.held;
