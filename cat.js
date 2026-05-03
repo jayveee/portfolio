@@ -450,7 +450,7 @@
         const textW = ctx.measureText(c.meow).width;
         const padX = px(3), padY = px(2.5);
         const bx = px(x) - textW / 2 - padX;
-        const by = px(headTop - 14);
+        const by = px(headTop - 6);
         const bw = textW + padX * 2;
         const bh = px(7) + padY * 2;
         // Bubble background
