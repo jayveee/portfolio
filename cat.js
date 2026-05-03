@@ -310,10 +310,8 @@
         behaviorTimer: 25000 + Math.random() * 15000,
         huntTarget: null,         // { platform, x, arrivedAt } or null
         huntPause: 20000 + Math.random() * 15000, // 20–35s ground exploration before first climb
-        // Walk toward the content area on entry (8vw indent ≈ 16% of GRID_W)
-        wanderX: _enterFromLeft
-          ? GRID_W * (0.18 + Math.random() * 0.18)   // left entry → stop near content
-          : GRID_W * (0.35 + Math.random() * 0.18),  // right entry → cross to content side
+        // Walk to roughly the center of the viewport after entering
+        wanderX: GRID_W * (0.45 + Math.random() * 0.1),
         descending: false,        // true while intentionally stepping off top platform → pass through letter platforms until ground
         // Grooming — fires after batting and occasionally during lazy idle
         groomTimer: 0,
