@@ -783,7 +783,6 @@
                 // Landed — explore this level before climbing further
                 c.huntTarget = null;
                 const p = c.platform;
-                // Clamp away from canvas edges so cat doesn't get stuck at the left/right wall
                 c.wanderX = Math.max(50, Math.min(GRID_W - 50, p.x + 10 + Math.random() * Math.max(0, p.w - 20)));
                 c.idleTimer = 0; // fresh idle so groom/lie can fire from this arrival
                 // "construction," (middle platform, gray text) gets a long stay so the
@@ -900,13 +899,16 @@
           // roams between rests rather than standing in one spot.
           const isResting = c.mood === 'sleeping' || c.mood === 'lying';
           if (!isResting && c.mood !== 'waking') {
-            const groundExploring = !c.platform && c.behavior === 'hunting' && c.huntPause > 0;
-            const wanderChance = groundExploring ? 0.012 : 0.003;
+            const groundExploring   = !c.platform && c.behavior === 'hunting' && c.huntPause > 0;
+            const platformExploring =  c.platform && c.behavior === 'hunting' && c.huntPause > 0;
+            const wanderChance = groundExploring ? 0.012 : platformExploring ? 0.009 : 0.003;
             if (c.wanderX == null && Math.random() < wanderChance) {
               if (c.platform) {
-                // Stay within the platform so the cat doesn't accidentally walk off
+                // Stay within the platform; clamp from canvas edges so cat doesn't park at the wall.
+                // Reset idleTimer so the cat walks around rather than lying at the first spot.
                 const p = c.platform;
-                c.wanderX = p.x + 10 + Math.random() * Math.max(0, p.w - 20);
+                c.wanderX = Math.max(50, Math.min(GRID_W - 50, p.x + 10 + Math.random() * Math.max(0, p.w - 20)));
+                c.idleTimer = 0;
               } else if (groundExploring) {
                 // During ground exploration strongly bias toward cross-viewport walks
                 // so visitors see the cat cover the full width of the screen.
