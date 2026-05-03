@@ -779,7 +779,7 @@
       const MEOWS = ['meow', 'purr~', 'mrrp!', 'nya~', 'mew', 'purrr', '*chirp*'];
       if (c.meowFade > 0) c.meowFade -= dt;
       else c.meow = null;
-      if (c.mood !== 'chasing' && c.mood !== 'batting') {
+      if (c.mood !== 'chasing' && c.mood !== 'batting' && c.mood !== 'sleeping' && c.mood !== 'lying') {
         c.meowTimer -= dt;
         if (c.meowTimer <= 0) {
           c.meow = MEOWS[Math.floor(Math.random() * MEOWS.length)];
