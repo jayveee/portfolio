@@ -109,12 +109,21 @@
       ctx.imageSmoothingEnabled = false;
       // Keep the cat in-bounds when the grid resizes — also reset platforming
       // state since obstacle rects are about to be recomputed.
+      // Don't clamp while the cat is entering from off-screen — recalculate
+      // the entry position for the new GRID_W instead of snapping on-screen.
       if (state && state.cat) {
-        state.cat.y = GROUND_Y - 12;
-        state.cat.x = Math.max(20, Math.min(GRID_W - 20, state.cat.x));
-        state.cat.vy = 0;
-        state.cat.onGround = true;
-        state.cat.platform = null;
+        const _c = state.cat;
+        _c.y = GROUND_Y - 12;
+        _c.vy = 0;
+        _c.onGround = true;
+        _c.platform = null;
+        if (_c.x <= 0) {
+          _c.x = -80;          // preserve off-screen left position
+        } else if (_c.x >= GRID_W) {
+          _c.x = GRID_W + 80;  // preserve off-screen right, adjusted for new width
+        } else {
+          _c.x = Math.max(20, Math.min(GRID_W - 20, _c.x));
+        }
       }
       recomputeObstacles();
     }
@@ -310,8 +319,9 @@
         behaviorTimer: 25000 + Math.random() * 15000,
         huntTarget: null,         // { platform, x, arrivedAt } or null
         huntPause: 20000 + Math.random() * 15000, // 20–35s ground exploration before first climb
-        // Walk to roughly the center of the viewport after entering
-        wanderX: GRID_W * (0.45 + Math.random() * 0.1),
+        wanderX: null,
+        entering: true,           // true while walking in from off-screen (protects wanderX from ground check)
+        entryDelay: 1800,         // ms to hold off-screen before walking in (content fades in ~1.5s)
         descending: false,        // true while intentionally stepping off top platform → pass through letter platforms until ground
         // Grooming — fires after batting and occasionally during lazy idle
         groomTimer: 0,
@@ -725,6 +735,20 @@
 
     function updateCat(dt) {
       const c = state.cat;
+
+      // Hold off-screen until content has faded in (~1.5s), then start entry walk.
+      // Return early so nothing updates while Pixel is invisible.
+      if (c.entryDelay > 0) {
+        c.entryDelay -= dt;
+        if (c.entryDelay <= 0) {
+          // Kick off the entry walk toward the center of the current viewport.
+          // Compute target now (not at init) so it uses the final GRID_W after
+          // any ResizeObserver/font-load recomputes have settled.
+          c.wanderX = GRID_W * (0.45 + Math.random() * 0.1);
+        }
+        return;
+      }
+
       c.bob += dt * 0.004;
       c.moodTimer -= dt;
 
@@ -1032,6 +1056,7 @@
               if (Math.abs(wdx) < 4) {
                 c.wanderX = null;
                 c.vx *= 0.5;
+                c.entering = false; // entry walk complete, normal wander takes over
               } else {
                 c.vx = Math.sign(wdx) * 1.3;
                 c.facing = Math.sign(wdx);
@@ -1075,7 +1100,10 @@
         c.onGround = true;
         c.platform = null;
         c.descending = false;
-        c.wanderX = null; // clear descent wanderX so ground explore picks a fresh one
+        // Don't clear wanderX during the entry walk — it holds the center target.
+        // After entry is complete (c.entering = false) clear normally so ground
+        // exploration picks fresh destinations.
+        if (!c.entering) c.wanderX = null;
       }
 
       // Land on top of a line platform (cap-height TOP or BASELINE rail of a
