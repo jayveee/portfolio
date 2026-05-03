@@ -249,7 +249,7 @@
       for (const g of lines.values()) {
         catPlatforms.push({
           x: g.xMin,
-          y: g.yMax + 8, // 8 units below ink bottom — accounts for sprite bottom padding so visual paws align with letter base
+          y: g.yMax + 4, // 4 units below ink bottom compensates for sprite foot padding
           w: g.xMax - g.xMin,
           h: 2,
         });
@@ -1205,7 +1205,9 @@
 
       const sx = c.frame * FRAME_W;
       const drawX = Math.round(c.x) - FRAME_W / 2;
-      const drawY = Math.round(c.y) + 18 - FRAME_H;
+      // On platforms, shift the sprite down 4 units so the visual paws sit at the
+      // letter baseline. Physics position is unchanged — only the draw call moves.
+      const drawY = Math.round(c.y) + 18 - FRAME_H + (c.platform ? 4 : 0);
 
       // Remap dark-charcoal sprite to warm light-gray (stone-200 palette).
       // brightness(3) pushes the body pixels toward white; saturate(0) strips
