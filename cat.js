@@ -321,7 +321,7 @@
         huntPause: 20000 + Math.random() * 15000, // 20–35s ground exploration before first climb
         wanderX: null,
         entering: true,           // true while walking in from off-screen (protects wanderX from ground check)
-        entryDelay: 1800,         // ms to hold off-screen before walking in (content fades in ~1.5s)
+        entryDelay: 2800,         // ms to hold off-screen before walking in (content fades in ~1.5s)
         descending: false,        // true while intentionally stepping off top platform → pass through letter platforms until ground
         // Grooming — fires after batting and occasionally during lazy idle
         groomTimer: 0,
