@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "cp index.html cat.html dist/ && cp -r fonts dist/ && terser cat.js -o dist/cat.js --compress --mangle --comments false"
+  },
+  "devDependencies": {
+    "terser": "^5.46.2"
+  }
+}
