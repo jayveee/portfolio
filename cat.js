@@ -270,12 +270,16 @@
     setTimeout(recomputeObstacles, 1600);
 
     // ---------- Game state (per-instance) ----------
+    const _enterFromLeft = Math.random() < 0.5;
     state = {
       cat: {
-        x: GRID_W / 2,
+        // Start off-screen and walk in from a random side so Pixel makes an entrance
+        // after the content has faded in (~1.5s). wanderX draws the cat toward the
+        // content area; existing movement code handles the rest.
+        x: _enterFromLeft ? -15 : GRID_W + 15,
         y: GROUND_Y - 12,         // sprite feet land near GROUND_Y
         vx: 0, vy: 0,
-        facing: 1,
+        facing: _enterFromLeft ? 1 : -1,
         mood: 'idle',
         moodTimer: 0,
         bob: 0,
@@ -306,7 +310,10 @@
         behaviorTimer: 25000 + Math.random() * 15000,
         huntTarget: null,         // { platform, x, arrivedAt } or null
         huntPause: 20000 + Math.random() * 15000, // 20–35s ground exploration before first climb
-        wanderX: null,            // destination x for idle wander walks
+        // Walk toward the content area on entry (8vw indent ≈ 16% of GRID_W)
+        wanderX: _enterFromLeft
+          ? GRID_W * (0.18 + Math.random() * 0.18)   // left entry → stop near content
+          : GRID_W * (0.35 + Math.random() * 0.18),  // right entry → cross to content side
         descending: false,        // true while intentionally stepping off top platform → pass through letter platforms until ground
         // Grooming — fires after batting and occasionally during lazy idle
         groomTimer: 0,
