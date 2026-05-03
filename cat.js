@@ -783,7 +783,8 @@
                 // Landed — explore this level before climbing further
                 c.huntTarget = null;
                 const p = c.platform;
-                c.wanderX = p.x + 10 + Math.random() * Math.max(0, p.w - 20);
+                // Clamp away from canvas edges so cat doesn't get stuck at the left/right wall
+                c.wanderX = Math.max(50, Math.min(GRID_W - 50, p.x + 10 + Math.random() * Math.max(0, p.w - 20)));
                 c.idleTimer = 0; // fresh idle so groom/lie can fire from this arrival
                 // "construction," (middle platform, gray text) gets a long stay so the
                 // cat can actually lie and sleep there. "Under" and "for now." (dark text,
