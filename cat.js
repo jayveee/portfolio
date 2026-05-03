@@ -312,6 +312,9 @@
         groomTimer: 0,
         sneakPhase: false,   // true = slow-stalk approach instead of full-speed chase
         pounceTimer: 0,      // >0 = frozen crouch wind-up before springing at toy
+        meow: null,          // current meow string or null
+        meowFade: 0,         // ms remaining for meow to show/fade
+        meowTimer: 8000 + Math.random() * 12000, // ms until first meow
       },
       toy: {
         type: 'yarn',
@@ -435,6 +438,61 @@
         // Centered question mark hovering right above the head
         drawQuestion(x - 1, headTop - 1);
       }
+
+      // Meow bubble — floats above head, fades out over last 700ms
+      if (c.meow && c.meowFade > 0) {
+        const fade = Math.min(1, c.meowFade / 700);
+        ctx.globalAlpha = fade;
+        ctx.save();
+        ctx.font = `bold ${px(5)}px "Saans Mono", ui-monospace, monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'alphabetic';
+        const textW = ctx.measureText(c.meow).width;
+        const padX = px(3), padY = px(2.5);
+        const bx = px(x) - textW / 2 - padX;
+        const by = px(headTop - 14);
+        const bw = textW + padX * 2;
+        const bh = px(7) + padY * 2;
+        // Bubble background
+        ctx.fillStyle = '#1c1917';
+        ctx.beginPath();
+        ctx.roundRect(bx, by, bw, bh, px(1.5));
+        ctx.fill();
+        // Bubble tail (small triangle pointing down toward head)
+        ctx.beginPath();
+        ctx.moveTo(px(x) - px(2), by + bh);
+        ctx.lineTo(px(x) + px(2), by + bh);
+        ctx.lineTo(px(x), by + bh + px(3));
+        ctx.closePath();
+        ctx.fill();
+        // Text
+        ctx.fillStyle = '#fafaf9';
+        ctx.fillText(c.meow, px(x), by + padY + px(6));
+        ctx.restore();
+        ctx.globalAlpha = 1;
+      }
+
+      // Hover name tag — RPG-style "Pixel" label above head (hidden when meow bubble is active)
+      if (state.pointer.nearCat && !(c.meow && c.meowFade > 0)) {
+        ctx.save();
+        ctx.font = `${px(4.5)}px "Saans Mono", ui-monospace, monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'alphabetic';
+        const label = 'Pixel';
+        const tw = ctx.measureText(label).width;
+        const px2 = px(2.5), py2 = px(2);
+        const tagX = px(x) - tw / 2 - px2;
+        const tagY = px(headTop - (c.meow && c.meowFade > 0 ? 26 : 8));
+        const tagW = tw + px2 * 2;
+        const tagH = px(6) + py2 * 2;
+        ctx.fillStyle = 'rgba(28,25,23,0.75)';
+        ctx.beginPath();
+        ctx.roundRect(tagX, tagY, tagW, tagH, px(1));
+        ctx.fill();
+        ctx.fillStyle = '#e7e5e4';
+        ctx.fillText(label, px(x), tagY + py2 + px(5.5));
+        ctx.restore();
+      }
     }
 
     // ---------- Petting ----------
@@ -446,12 +504,23 @@
       const c = state.cat;
       const wasResting = c.mood === 'sleeping' || c.mood === 'lying';
       c.idleTimer = 0;
+      c.petStreak = (c.petStreak || 0) + 1;
+      clearTimeout(c._petStreakReset);
+      c._petStreakReset = setTimeout(() => { c.petStreak = 0; }, 1200);
       if (wasResting) { c.mood = 'waking'; c.moodTimer = 400; }
       else            { c.mood = 'happy';  c.moodTimer = 800; }
-      // Spawn the heart at the visible head position (matches mood indicator anchor)
       const isLow = c.anim === 'sleep' || c.anim === 'liedown';
       const headY = c.y + (isLow ? -6 : -16);
-      spawnParticle(c.x + (Math.random() - 0.5) * 8, headY, 'heart');
+      // Spam petting: extra hearts + purr bubble
+      const hearts = Math.min(1 + Math.floor(c.petStreak / 2), 5);
+      for (let i = 0; i < hearts; i++) {
+        spawnParticle(c.x + (Math.random() - 0.5) * 14, headY - Math.random() * 6, 'heart');
+      }
+      if (c.petStreak >= 3) {
+        const purrs = ['purr~', 'purrr', '♡ purr', '*purring*', 'purrrr~'];
+        c.meow = purrs[Math.floor(Math.random() * purrs.length)];
+        c.meowFade = 1800;
+      }
     }
 
     // ---------- Input ----------
@@ -490,11 +559,14 @@
       const p = pointerToGrid(e);
       state.pointer.x = p.x; state.pointer.y = p.y;
       if (state.toy.held) { state.toy.x = p.x; state.toy.y = p.y; }
-      // Laser tracks the cursor whenever it's the active toy
       if (state.toy.type === 'laser' && state.toy.active) {
         state.toy.x = p.x; state.toy.y = p.y;
       }
+      const c = state.cat;
+      const dx = p.x - c.x, dy = p.y - c.y;
+      state.pointer.nearCat = Math.sqrt(dx * dx + dy * dy) < 28;
     });
+    canvas.addEventListener('pointerleave', () => { state.pointer.nearCat = false; });
     function release(e) {
       if (!state.pointer.down) return;
       state.pointer.down = false;
@@ -702,6 +774,18 @@
       // Decay any active grooming timer
       if (c.groomTimer > 0) c.groomTimer -= dt;
       if (c.pounceTimer > 0) c.pounceTimer -= dt;
+      // Meow timer — fires randomly, only when idle/resting (not chasing toys)
+      const MEOWS = ['meow', 'purr~', 'mrrp!', 'nya~', 'mew', 'purrr', '*chirp*'];
+      if (c.mood !== 'chasing' && c.mood !== 'batting') {
+        c.meowTimer -= dt;
+        if (c.meowTimer <= 0) {
+          c.meow = MEOWS[Math.floor(Math.random() * MEOWS.length)];
+          c.meowFade = 2200;
+          c.meowTimer = 18000 + Math.random() * 22000; // next meow in 18–40s
+        }
+        if (c.meowFade > 0) c.meowFade -= dt;
+        else c.meow = null;
+      }
 
       // ----- Autonomous platform climbing (cat explores each level in order) -----
       // Behaviour: ground → "for now." → "construction," → "Under" → descend.
