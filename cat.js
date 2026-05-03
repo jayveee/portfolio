@@ -509,6 +509,7 @@
       c._petStreakReset = setTimeout(() => { c.petStreak = 0; }, 1200);
       if (wasResting) { c.mood = 'waking'; c.moodTimer = 400; }
       else            { c.mood = 'happy';  c.moodTimer = 800; }
+      c.vx = 0; c.wanderX = null; // stop in place while being petted
       const isLow = c.anim === 'sleep' || c.anim === 'liedown';
       const headY = c.y + (isLow ? -6 : -16);
       // Spam petting: extra hearts + purr bubble
