@@ -249,7 +249,7 @@
       for (const g of lines.values()) {
         catPlatforms.push({
           x: g.xMin,
-          y: g.yMax + 4, // 4 units below ink bottom compensates for sprite foot padding
+          y: g.yMax, // flush with ink bottom (obstaclePadding already included in g.yMax)
           w: g.xMax - g.xMin,
           h: 2,
         });
@@ -1142,9 +1142,10 @@
       // when falling (same mechanic as the cat). Skip while dropping in from above.
       if (!t.dropping && t.vy > 0) {
         for (const p of catPlatforms) {
-          if (prevY <= p.y && t.y >= p.y &&
+          // Use toy bottom (center + TR) for vertical detection so toy sits on surface, not embedded in it
+          if (prevY + TR <= p.y && t.y + TR >= p.y &&
               t.x + TR > p.x && t.x - TR < p.x + p.w) {
-            t.y = p.y;
+            t.y = p.y - TR;
             t.vy *= -BOUNCE; t.vx *= FRICTION;
             if (Math.abs(t.vy) < 0.6) t.vy = 0;
             if (Math.abs(t.vx) < 0.1) t.vx = 0;
@@ -1205,9 +1206,8 @@
 
       const sx = c.frame * FRAME_W;
       const drawX = Math.round(c.x) - FRAME_W / 2;
-      // On platforms, shift the sprite down 4 units so the visual paws sit at the
-      // letter baseline. Physics position is unchanged — only the draw call moves.
-      const drawY = Math.round(c.y) + 18 - FRAME_H + (c.platform ? 4 : 0);
+      // On platforms, shift sprite down 4 units so visual paws sit at letter baseline.
+      const drawY = Math.round(c.y) + 18 - FRAME_H + (c.platform ? 6 : 0);
 
       // Remap dark-charcoal sprite to warm light-gray (stone-200 palette).
       // brightness(3) pushes the body pixels toward white; saturate(0) strips
@@ -1237,11 +1237,10 @@
         drawLaser(x, y);
         return;
       }
-      if (!t.held) {
-        const shadowFloor = t.restingPlatform ? t.restingPlatform.y + 1 : GROUND_Y + 7;
-        const a = Math.max(0, 1 - (shadowFloor - y) / 80);
+      if (!t.held && !t.restingPlatform) {
+        const a = Math.max(0, 1 - (GROUND_Y + 7 - y) / 80);
         ctx.fillStyle = `rgba(120,113,108,${0.4 * a})`;
-        ctx.fillRect(Math.round(px(x - 4)), Math.round(px(shadowFloor)), Math.round(px(8)), Math.round(px(1)));
+        ctx.fillRect(Math.round(px(x - 4)), Math.round(px(GROUND_Y + 7)), Math.round(px(8)), Math.round(px(1)));
       }
       switch (t.type) {
         case 'yarn':    drawYarn(x, y, t.spinning); break;
