@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import Script from 'next/script'
 import './globals.css'
 
 const saans = localFont({
@@ -35,6 +36,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${saans.variable} ${saansMono.variable}`}>
       <body className="font-sans bg-white text-neutral-900 antialiased">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-HEGSY3D6SF" strategy="afterInteractive" />
+        <Script id="ga4" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-HEGSY3D6SF');
+        `}</Script>
         {children}
       </body>
     </html>
