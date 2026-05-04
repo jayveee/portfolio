@@ -156,7 +156,7 @@
 
   <script src="cat.js"></script>
   <script>
-    CatGame.init({
+    if (typeof CatGame !== 'undefined') CatGame.init({
       canvas: document.getElementById('cat-canvas'),
       scale: 2,                  // fixed pixel scale so the cat stays a sensible size
       fitToWindow: true,         // canvas spans the full viewport
