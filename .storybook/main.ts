@@ -7,6 +7,7 @@ const config: StorybookConfig = {
     name: '@storybook/nextjs',
     options: {},
   },
+  staticDirs: [{ from: '../fonts', to: '/fonts' }],
 }
 
 export default config
