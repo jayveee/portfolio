@@ -84,7 +84,7 @@
   <header class="px-6 sm:px-10 pt-8 sm:pt-10">
     <div class="max-w-[1600px] mx-auto flex items-center justify-between mono text-xs tracking-[0.2em] uppercase text-stone-500">
       <span class="fade-in delay-1">Joanna Veloria</span>
-      <span class="fade-in delay-1 flex items-center gap-2">
+      <span id="dot-easter" class="fade-in delay-1 flex items-center gap-2 cursor-pointer select-none" style="position:relative;z-index:20;">
         <span class="w-1.5 h-1.5 rounded-full bg-stone-900 blink"></span>
         In progress
       </span>
@@ -123,6 +123,31 @@
 
   <!-- Cat lives on a full-viewport canvas so toys can fly anywhere -->
   <canvas id="cat-canvas" class="fixed inset-0 z-10"></canvas>
+
+  <script>
+    (function () {
+      var _logged = false;
+      document.getElementById('dot-easter').addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (!_logged) {
+          _logged = true;
+          console.log(
+            '%c\n  ✦ SECRET AREA DISCOVERED\n\n' +
+            '  DESIGNER    Joanna Veloria\n' +
+            '  CLASS       Main Character\n' +
+            '  COMPANION   Pixel  [ status: napping ]\n' +
+            '  PROGRESS    ████████░░  portfolio incoming\n\n' +
+            '  you opened devtools on a portfolio site.\n' +
+            '  bold move. respect.\n\n' +
+            '  either you\'re curious — or you\'re hiring.\n' +
+            '  hi either way.  ✦\n',
+            'color:#e7e5e4;background:#1c1917;font-family:monospace;font-size:12px;line-height:2;padding:16px 24px;display:block;'
+          );
+        }
+        document.dispatchEvent(new CustomEvent('pixel:react'));
+      });
+    })();
+  </script>
 
   <script src="cat.js"></script>
   <script>

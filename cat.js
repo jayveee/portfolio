@@ -1453,6 +1453,26 @@
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) last = performance.now();
     });
+
+    // Easter egg — triggered by clicking the blinking dot in the header.
+    // Pixel stops what he's doing, walks to center, sits, and says "soon."
+    document.addEventListener('pixel:react', function () {
+      if (!state || !state.cat) return;
+      const c = state.cat;
+      c.huntTarget  = null;
+      c.huntPause   = 5000;
+      c.sneakPhase  = false;
+      c.pounceTimer = 0;
+      c.mood        = 'idle';
+      c.moodTimer   = 0;
+      c.idleTimer   = 0;
+      if (c.platform) c.descending = true;
+      c.wanderX     = GRID_W * 0.5;
+      c.meow        = 'soon.';
+      c.meowFade    = 3500;
+      c.meowTimer   = 20000;
+    });
+
     requestAnimationFrame(loop);
   }
 
