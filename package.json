@@ -9,6 +9,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "chromatic": "chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
     "build:static": "mkdir -p dist && cp -r fonts dist/ && npx tailwindcss -i input.css -o dist/style.css --minify && terser cat.js -o dist/cat.js --compress --mangle --comments false && sed 's|<script src=\"https://cdn.tailwindcss.com\"></script>|<link rel=\"stylesheet\" href=\"style.css\">|g' index.html > dist/index.html"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.21",
+    "chromatic": "^16.7.0",
     "storybook": "^9.1.20",
     "tailwindcss": "^3.4.19",
     "terser": "^5.46.2",
