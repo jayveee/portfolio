@@ -71,24 +71,23 @@ export default function NotFound() {
 
       <main className="relative z-20 min-h-screen flex flex-col items-center justify-center px-5 text-center pb-56 sm:pb-72">
 
-        <p className="text-xs font-mono uppercase tracking-widest text-neutral-400 mb-5">404</p>
-
+        <p className="text-sm sm:text-base font-mono uppercase tracking-widest text-neutral-500 mb-3">404</p>
         <h1
-          className="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight leading-[1.02] mb-5 cursor-pointer select-none"
-          onClick={() => setEggActive(true)}
+          className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.02] mb-4 cursor-pointer select-none"
+          onClick={() => { setEggActive(true); (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag?.('event', '404_easter_egg_clicked') }}
           title={eggActive ? undefined : 'psst'}
         >
           Well, almost nothing.
         </h1>
 
         {!eggActive ? (
-          <p className="text-neutral-400 text-base sm:text-lg mb-10">
+          <p className="text-neutral-500 text-lg sm:text-xl mb-2 max-w-md">
             This page doesn't exist. The cat does, though.
           </p>
         ) : (
           <div className="mb-10 flex flex-col items-center gap-4">
-            <p className="text-neutral-400 text-base sm:text-lg">
-              ok fine — here's something.
+            <p className="text-neutral-500 text-lg sm:text-xl">
+              the cat disagrees:
             </p>
             <div className="flex gap-2 flex-wrap justify-center">
               {toys.map((toy) => (
