@@ -84,8 +84,8 @@
     function fitSize() {
       let cw, ch;
       if (fitToWindow) {
-        cw = window.innerWidth;
-        ch = window.innerHeight;
+        cw = window.visualViewport ? window.visualViewport.width  : window.innerWidth;
+        ch = window.visualViewport ? window.visualViewport.height : window.innerHeight;
       } else {
         const wrapper = canvas.parentElement || document.body;
         const r = wrapper.getBoundingClientRect();
@@ -270,6 +270,7 @@
       new ResizeObserver(fitSize).observe(canvas.parentElement || document.body);
     }
     window.addEventListener('resize', fitSize);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', fitSize);
     // Letter positions change after the web font finishes loading
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(recomputeObstacles);

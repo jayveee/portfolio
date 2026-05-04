@@ -162,7 +162,7 @@
       fitToWindow: true,         // canvas spans the full viewport
       adaptiveWidth: true,
       adaptiveHeight: true,
-      groundFromBottom: 12,      // cat walks 12 grid units above the viewport bottom
+      groundFromBottom: window.innerWidth >= 640 ? 12 : 18, // more room on mobile for meow bubbles
       showBg: false,
       showGround: false,
       toys: true,
