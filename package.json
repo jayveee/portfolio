@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build": "cp index.html cat.html dist/ && cp -r fonts dist/ && terser cat.js -o dist/cat.js --compress --mangle --comments false"
+    "build": "mkdir -p dist && cp -r fonts dist/ && npx tailwindcss -i input.css -o dist/style.css --minify && terser cat.js -o dist/cat.js --compress --mangle --comments false && sed 's|<script src=\"https://cdn.tailwindcss.com\"></script>|<link rel=\"stylesheet\" href=\"style.css\">|g' index.html > dist/index.html"
   },
   "devDependencies": {
+    "tailwindcss": "^3.4.19",
     "terser": "^5.46.2"
   }
 }
