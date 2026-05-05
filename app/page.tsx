@@ -19,71 +19,75 @@ export default function Home() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) return
 
-    // 1. Hero headline — words stagger up on load
-    if (heroRef.current) {
-      gsap.from(heroRef.current.querySelectorAll('.word'), {
-        y: 28,
-        opacity: 0,
-        duration: 0.85,
-        stagger: 0.055,
-        ease: 'power3.out',
-        delay: 0.05,
-      })
-    }
+    const ctx = gsap.context(() => {
+      // 1. Hero headline — words stagger up on load
+      if (heroRef.current) {
+        gsap.from(heroRef.current.querySelectorAll('.word'), {
+          y: 28,
+          opacity: 0,
+          duration: 0.85,
+          stagger: 0.055,
+          ease: 'power3.out',
+          delay: 0.05,
+        })
+      }
 
-    // Project cards — fade up on scroll (replaces Framer Motion)
-    gsap.utils.toArray<HTMLElement>('.project-card').forEach((card) => {
-      gsap.from(card, {
-        y: 48,
-        opacity: 0,
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          toggleActions: 'play none none none',
-        },
-      })
-    })
-
-    // 2. Thumbnail parallax — label text drifts inside the overflow-hidden box
-    gsap.utils.toArray<HTMLElement>('.thumb-inner').forEach((el) => {
-      gsap.fromTo(
-        el,
-        { y: 50 },
-        {
-          y: -50,
-          ease: 'none',
+      // Project cards — fade up on scroll
+      gsap.utils.toArray<HTMLElement>('.project-card').forEach((card) => {
+        gsap.from(card, {
+          y: 48,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power3.out',
           scrollTrigger: {
-            trigger: el.closest('.thumb-wrap'),
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
+            trigger: card,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
           },
-        }
-      )
-    })
-
-    // 4. Project number count-up
-    gsap.utils.toArray<HTMLElement>('.proj-number').forEach((el) => {
-      const target = parseInt(el.getAttribute('data-num') ?? '0')
-      const obj = { val: 0 }
-      gsap.to(obj, {
-        val: target,
-        duration: 0.55,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 88%',
-          toggleActions: 'play none none none',
-        },
-        onUpdate() {
-          el.textContent = String(Math.round(obj.val)).padStart(2, '0')
-        },
+        })
       })
+
+      // 2. Thumbnail parallax — label drifts inside overflow-hidden box
+      gsap.utils.toArray<HTMLElement>('.thumb-inner').forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 50 },
+          {
+            y: -50,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el.closest('.thumb-wrap'),
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        )
+      })
+
+      // 4. Project number count-up
+      gsap.utils.toArray<HTMLElement>('.proj-number').forEach((el) => {
+        const target = parseInt(el.getAttribute('data-num') ?? '0')
+        const obj = { val: 0 }
+        gsap.to(obj, {
+          val: target,
+          duration: 0.55,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+          onUpdate() {
+            el.textContent = String(Math.round(obj.val)).padStart(2, '0')
+          },
+        })
+      })
+
+      ScrollTrigger.refresh()
     })
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+    return () => ctx.revert()
   }, [])
 
   return (
