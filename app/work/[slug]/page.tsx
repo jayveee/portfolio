@@ -26,7 +26,7 @@ export default async function CaseStudyPage({
   const isDark = project.bg.includes('800') || project.bg.includes('900')
 
   return (
-    <main className="min-h-screen bg-white text-black">
+    <main className="min-h-screen max-w-[1440px] mx-auto text-black">
 
       {/* Nav */}
       <header className="sticky top-0 z-50 bg-white border-b border-neutral-100 px-5 sm:px-8 md:px-16 lg:px-24 py-4 sm:py-5 flex items-center justify-between">
