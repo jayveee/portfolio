@@ -4,23 +4,27 @@ import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import { projects } from '@/lib/projects'
 
+const cap = 'max-w-[1440px] mx-auto px-5 sm:px-8 md:px-16 lg:px-24'
+
 export default function Home() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <main className="min-h-screen max-w-[1440px] mx-auto text-black">
+    <main className="min-h-screen text-black">
 
-      {/* Nav */}
-      <header className="sticky top-0 z-50 bg-white border-b border-neutral-100 px-5 sm:px-8 md:px-16 lg:px-24 py-4 sm:py-5 flex items-center justify-between">
-        <span className="font-semibold tracking-tight text-sm">Joanna Veloria</span>
-        <nav className="flex gap-6 sm:gap-8 text-sm">
-          <a href="#work" className="hover:opacity-50 transition-opacity">Work</a>
-          <Link href="/about" className="hover:opacity-50 transition-opacity">About</Link>
-        </nav>
+      {/* Nav — border spans full width, content capped */}
+      <header className="sticky top-0 z-50 bg-white border-b border-neutral-100 py-4 sm:py-5">
+        <div className={`${cap} flex items-center justify-between`}>
+          <span className="font-semibold tracking-tight text-sm">Joanna Veloria</span>
+          <nav className="flex gap-6 sm:gap-8 text-sm">
+            <a href="#work" className="hover:opacity-50 transition-opacity">Work</a>
+            <Link href="/about" className="hover:opacity-50 transition-opacity">About</Link>
+          </nav>
+        </div>
       </header>
 
       {/* Hero */}
-      <section className="px-5 sm:px-8 md:px-16 lg:px-24 pt-14 sm:pt-20 md:pt-24 pb-20 sm:pb-28 md:pb-32">
+      <section className={`${cap} pt-14 sm:pt-20 md:pt-24 pb-20 sm:pb-28 md:pb-32`}>
         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight mb-6 sm:mb-8 max-w-5xl">
           Product designer crafting thoughtful digital experiences.
         </h1>
@@ -37,9 +41,13 @@ export default function Home() {
 
       {/* Work */}
       <section id="work" className="pb-20 sm:pb-32">
-        <div className="px-5 sm:px-8 md:px-16 lg:px-24 border-t border-black pt-6 sm:pt-8 mb-10 sm:mb-14 flex items-center justify-between">
-          <span className="text-xs font-mono uppercase tracking-widest text-neutral-400">Selected work</span>
-          <span className="text-xs font-mono uppercase tracking-widest text-neutral-400">{projects.length} projects</span>
+
+        {/* Section header — border-t spans full width */}
+        <div className="border-t border-black">
+          <div className={`${cap} pt-6 sm:pt-8 mb-10 sm:mb-14 flex items-center justify-between`}>
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400">Selected work</span>
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400">{projects.length} projects</span>
+          </div>
         </div>
 
         <div className="flex flex-col gap-16 sm:gap-20 md:gap-28">
@@ -53,8 +61,8 @@ export default function Home() {
             >
             <Link href={`/work/${p.slug}`} className="group block">
 
-              {/* Project label row */}
-              <div className="px-5 sm:px-8 md:px-16 lg:px-24 flex items-baseline justify-between mb-3 sm:mb-4">
+              {/* Project label row — capped */}
+              <div className={`${cap} flex items-baseline justify-between mb-3 sm:mb-4`}>
                 <div className="flex items-baseline gap-2 sm:gap-3">
                   <span className="text-xs font-mono text-neutral-300">{p.number}</span>
                   <h2 className="text-base sm:text-lg font-bold tracking-tight uppercase">{p.title}</h2>
@@ -62,17 +70,17 @@ export default function Home() {
                 <span className="text-xs font-mono text-neutral-400">{p.year}</span>
               </div>
 
-              {/* Thumbnail */}
-              <div className={`w-full ${p.bg} h-52 sm:h-72 md:h-[420px] lg:h-[520px] flex items-center justify-center overflow-hidden`}>
-                <span className={`text-[60px] sm:text-[90px] md:text-[130px] lg:text-[160px] font-bold select-none leading-none tracking-tighter px-4 text-center ${
+              {/* Thumbnail — full bleed */}
+              <div className={`w-full ${p.bg} h-52 sm:h-72 md:h-[420px] lg:h-[520px] 2xl:h-[640px] flex items-center justify-center overflow-hidden`}>
+                <span className={`text-[60px] sm:text-[90px] md:text-[130px] lg:text-[160px] 2xl:text-[200px] font-bold select-none leading-none tracking-tighter px-4 text-center ${
                   p.bg.includes('800') || p.bg.includes('900') ? 'text-white/10' : 'text-black/10'
                 }`}>
                   {p.label}
                 </span>
               </div>
 
-              {/* Project info row */}
-              <div className="px-5 sm:px-8 md:px-16 lg:px-24 mt-4 sm:mt-5 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              {/* Project info row — capped */}
+              <div className={`${cap} mt-4 sm:mt-5 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4`}>
                 <div className="flex-1 max-w-xl">
                   <p className="text-xs text-neutral-400 mb-1 uppercase tracking-wide">{p.role}</p>
                   <p className="text-sm text-neutral-600 leading-relaxed">{p.description}</p>
@@ -97,12 +105,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-5 sm:px-8 md:px-16 lg:px-24 py-8 border-t border-neutral-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-neutral-400">
-        <span>© {new Date().getFullYear()} Joanna Veloria</span>
-        <div className="flex gap-6">
-          <a href="https://linkedin.com/in/joannaveloria" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">LinkedIn</a>
-          <span>hello@joannaveloria.com</span>
+      {/* Footer — border-t spans full width */}
+      <footer className="border-t border-neutral-100">
+        <div className={`${cap} py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-neutral-400`}>
+          <span>© {new Date().getFullYear()} Joanna Veloria</span>
+          <div className="flex gap-6">
+            <a href="https://linkedin.com/in/joannaveloria" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">LinkedIn</a>
+            <span>hello@joannaveloria.com</span>
+          </div>
         </div>
       </footer>
 
