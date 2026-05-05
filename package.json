@@ -13,7 +13,7 @@
     "build:static": "mkdir -p dist && cp -r fonts dist/ && npx tailwindcss -i input.css -o dist/style.css --minify && terser cat.js -o dist/cat.js --compress --mangle --comments false && sed 's|<script src=\"https://cdn.tailwindcss.com\"></script>|<link rel=\"stylesheet\" href=\"style.css\">|g' index.html > dist/index.html"
   },
   "dependencies": {
-    "framer-motion": "^12.38.0",
+    "gsap": "^3.15.0",
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
