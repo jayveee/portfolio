@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes blink {
+  0%, 60%    { opacity: 1; }
+  60.1%, 100% { opacity: 0; }
+}
+
+.toy-btn {
+  transition: all .15s ease;
+  background: #fafaf9;
+}
+.toy-btn:hover { color: #1c1917; }
+button.toy-btn.active {
+  background-color: #1c1917 !important;
+  color: #fafaf9 !important;
+  border-color: #1c1917 !important;
+}
