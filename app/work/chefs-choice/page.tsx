@@ -114,10 +114,14 @@ export default function ChefsChoicePage() {
               This was built as part of the Driven II Develop Developer&apos;s Challenge — an
               8-week intensive program that assembled cross-functional teams of 10 to take a
               product from research through a live pitch. I led UX/UI research and design:
-              conducting user surveys, building personas, designing the full onboarding and
-              meal selection flow, and creating a component library that mapped directly to
-              the React codebase. The product shipped as a MERN MVP with full CRUD, JWT auth,
-              Stripe and PayPal checkout, and an AI meal recommendation chatbot called Sue Chef.
+              setting the research framework on day one before the team had even locked in a
+              product direction, building and distributing surveys, synthesizing findings into
+              personas, setting up the team Figma workspace, designing the full onboarding and
+              meal selection flow, and building an interactive prototype handed directly to
+              engineers. I also kept the work moving — running design meetings, posting recaps,
+              coordinating workload across team members, and bridging research and design
+              throughout. The product shipped as a MERN MVP with full CRUD, JWT auth, Stripe
+              and PayPal checkout, and an AI meal recommendation chatbot called Sue Chef.
             </p>
           </div>
         </div>
@@ -155,6 +159,20 @@ export default function ChefsChoicePage() {
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl">
               30+ survey responses across 2 surveys and 3 in-depth user interviews. Competitive
               analysis across four direct competitors.
+            </p>
+            <p className="text-base leading-relaxed text-neutral-500 max-w-2xl">
+              Before the team had a product direction, I built 4 surveys in Figma — one general
+              consumer behavior survey and one tailored to each of the 3 candidate products
+              (pre-made meals, secondhand clothing, online furniture). I proposed the research
+              framework on day one: understand the problem and users, map friction in user flows,
+              prioritize features, prototype, test. Once the team aligned on pre-made meals, I
+              distributed the surveys, tracked responses in Google Sheets, and supplemented with
+              competitor app review analysis when early response counts were low. Persona
+              development started with survey data and was refined collaboratively — I proposed
+              building 4 personas from the survey responses, pushed for supplementing with
+              competitor app reviews when sample sizes were low, and asked the clarifying
+              questions that sharpened each persona into something the design could actually
+              build from.
             </p>
 
             {/* Competitor grid */}
@@ -217,7 +235,7 @@ export default function ChefsChoicePage() {
           <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 pt-1">
             Who we designed for
           </p>
-          <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
+          <div className="grid sm:grid-cols-2 gap-4 max-w-3xl">
             <div className="border border-neutral-200 p-6">
               <div className="w-8 h-8 rounded-full bg-teal-100 mb-4" />
               <p className="font-bold text-sm mb-1">Emily Grant</p>
@@ -243,6 +261,30 @@ export default function ChefsChoicePage() {
                 Time-strapped, managing family dietary needs across multiple people. Needs fast
                 prep, reliable delivery, and the ability to skip weeks without friction. Trusts
                 services that respect her schedule.
+              </p>
+            </div>
+            <div className="border border-neutral-200 p-6">
+              <div className="w-8 h-8 rounded-full bg-teal-100 mb-4" />
+              <p className="font-bold text-sm mb-1">The Health-Conscious Optimizer</p>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
+                Budget-Constrained, Goal-Driven
+              </p>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                Tracking calories, following a high-protein diet, budget $100–125/week.
+                Skeptical of subscriptions — wants to try a single order before committing.
+                Needs meals that are fully prepped and nutritionally transparent.
+              </p>
+            </div>
+            <div className="border border-neutral-200 p-6">
+              <div className="w-8 h-8 rounded-full bg-teal-100 mb-4" />
+              <p className="font-bold text-sm mb-1">The Tech-Savvy Professional</p>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
+                Optimizing for Efficiency
+              </p>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                Comfortable with AI recommendations and wants them to work without manual input.
+                Values speed, variety, and nutritional accuracy. Likely to engage with Sue Chef
+                and build a recurring order rather than reselect weekly.
               </p>
             </div>
           </div>
@@ -273,9 +315,9 @@ export default function ChefsChoicePage() {
                 body: 'The Preferences step offers 8 food preference tiles — Vegetarian, Keto, Paleo, Flexitarian, Pescatarian, Chef\'s choice, High-protein, Calorie smart. Tiles instead of dropdowns. Visual chunks instead of a wall of text. Maximum 8 options at a time, always.',
               },
               {
-                law: 'Mobile-first design',
-                title: 'Designed for small screens first',
-                body: 'Chef\'s Choice targets busy users — users who browse on their phones while commuting or in the kitchen. Every layout was designed at mobile breakpoints first, then scaled up.',
+                law: 'WCAG 2.1 AA · Mobile-first',
+                title: 'Accessible and small-screen first',
+                body: 'CTA button colors were built to meet WCAG Level AA contrast from the start, with dark mode shades included in the color tokens. Every layout was designed at mobile breakpoints first — Chef\'s Choice targets users browsing on their phones, not at a desk.',
               },
             ].map((p) => (
               <div key={p.law} className="border-t border-neutral-100 pt-8">
@@ -296,15 +338,16 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-8">
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl">
-              As lead designer, I owned the style guide, the full onboarding and registration flow,
-              the meal selection experience, and the component library handed to engineers.
+              As lead designer, I set up the Figma workspace, owned the design system, built
+              the interactive prototype engineers worked from, and designed every screen from
+              onboarding through checkout — including mobile.
             </p>
             <div className="grid sm:grid-cols-2 gap-6 max-w-2xl">
               {[
                 {
                   n: '01',
-                  title: 'Style guide & design system',
-                  body: 'Color tokens (primary warm palette + teal secondary), typography (Roboto header), icon library, and component specs — all documented before engineering started.',
+                  title: 'Figma workspace & design system',
+                  body: 'Set up the team Figma from scratch — project structure, access, and shared library. Color tokens built to WCAG Level AA for CTA buttons, with dark mode shades included. Text styles named to match dev h1/h2/body conventions so engineers could use them directly without translation.',
                 },
                 {
                   n: '02',
@@ -313,13 +356,13 @@ export default function ChefsChoicePage() {
                 },
                 {
                   n: '03',
-                  title: 'Meal selection & detail modal',
-                  body: 'Food photography grid, allergen and serving dropdowns, nutrition per serving (calories, protein, fats, carbs), oven and microwave instructions, and "Add to Order" CTA.',
+                  title: 'Interactive prototype for devs',
+                  body: 'Built an interactive Figma prototype covering the full user flow — hotspots, screen transitions, and navigation — and shared it directly with frontend and backend. This was what engineers built from.',
                 },
                 {
                   n: '04',
-                  title: 'Checkout & account management',
-                  body: 'Delivery address, Stripe/PayPal payment form, order summary with first delivery date picker. Post-signup account: Profile, Plan Settings, Dietary Selections, Delivery Info, Payment.',
+                  title: 'Meal selection, checkout & mobile screens',
+                  body: 'Food photography grid, allergen dropdowns, nutrition per serving, and "Add to Order" CTA. Checkout: address form, Stripe/PayPal, delivery date picker. Also designed mobile screens, the about page, and FAQ independently.',
                 },
               ].map((item) => (
                 <div key={item.n} className="border-t border-neutral-100 pt-6">
@@ -466,6 +509,13 @@ export default function ChefsChoicePage() {
               you didn&apos;t set, and a pitch at the end — is a different discipline than
               client work. Every decision has to be documented and defensible because engineers
               are building from it immediately, and there&apos;s no runway to backtrack.
+            </p>
+            <p className="text-base leading-relaxed text-neutral-500">
+              Running research on a team like this means doing two jobs at once: the actual
+              research work and the coordination work that keeps it moving. Post-holiday
+              check-ins, distributing tasks across teammates, proactively pulling the design
+              team into research meetings — none of that is in a job description, but all of
+              it determines whether the research actually ships.
             </p>
             <p className="text-base leading-relaxed text-neutral-500">
               The biggest gap was testing. The program structure — requirements, then design,
