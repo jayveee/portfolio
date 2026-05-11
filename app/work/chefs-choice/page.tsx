@@ -4,7 +4,7 @@ import { projects } from '@/lib/projects'
 export const metadata = {
   title: "Chef's Choice — Joanna Veloria",
   description:
-    "UX/UI case study: A food ordering MVP built with React, Node, and Stripe. Designed end-to-end — competitive research, 7-step onboarding architecture, homepage, and dev handoff.",
+    "UX/UI case study: Lead designer on a pre-made meal subscription platform with AI personalization. MERN stack, 11-person team, from research to shipped product.",
 }
 
 const cap = 'px-5 sm:px-8 md:px-16 lg:px-24'
@@ -70,7 +70,7 @@ export default function ChefsChoicePage() {
             </h1>
           </div>
           <div className="flex flex-wrap gap-2 md:justify-end">
-            {['MVP', 'Web', 'E-commerce', 'UX/UI Design'].map((tag) => (
+            {['MVP', 'Web', 'Subscription', 'UX/UI Design', 'AI'].map((tag) => (
               <span
                 key={tag}
                 className="text-xs px-2.5 py-1 border border-neutral-200 text-neutral-500 rounded-full"
@@ -83,10 +83,10 @@ export default function ChefsChoicePage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {[
-            { label: 'Role', value: 'Lead UX/UI Designer' },
-            { label: 'Timeline', value: '6 months, 2024' },
-            { label: 'Team', value: 'Lead Designer + 2 Engineers' },
-            { label: 'Platform', value: 'Web (1440px desktop)' },
+            { label: 'Role', value: 'Lead UX/UI Researcher & Designer' },
+            { label: 'Timeline', value: '2024' },
+            { label: 'Team', value: '11 — design, engineering, AI/ML' },
+            { label: 'Stack', value: 'MERN, TypeScript, Stripe, Firebase' },
           ].map((m) => (
             <div key={m.label}>
               <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-1">
@@ -106,13 +106,16 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-4">
             <p className="text-lg sm:text-xl leading-relaxed text-neutral-700 max-w-2xl">
-              Chef&apos;s Choice connects home cooks with their neighbors — a food ordering platform
-              designed to close the gap between people who can cook and people who want a real meal.
+              Chef&apos;s Choice is a pre-made meal subscription platform that delivers
+              chef-curated dishes — personalized to your dietary goals, sensitivities, and
+              preferences through AI.
             </p>
             <p className="text-base leading-relaxed text-neutral-500 max-w-2xl">
-              I owned the design end-to-end: competitive analysis, user interviews, wireframes, 33
-              hi-fi desktop screens, and a component library handed directly to engineers. Built with
-              React, Node, and Stripe. The MVP shipped on schedule.
+              I led UX/UI research and design on an 11-person cross-functional team: conducting
+              user surveys, building personas, designing the full onboarding and meal selection
+              flow, and creating a component library that mapped directly to the React codebase.
+              The product shipped as a MERN MVP with full CRUD, JWT auth, Stripe and PayPal
+              checkout, and an AI meal recommendation chatbot called Sue Chef.
             </p>
           </div>
         </div>
@@ -126,15 +129,15 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-4">
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl">
-              Home cooks have the talent — but the platforms that exist require licenses, commercial
-              kitchen certification, and fees most home cooks can&apos;t absorb. Meanwhile, buyers
-              were already paying neighbors for food through Facebook groups and group chats. The
-              demand was real. The experience was broken.
+              Existing meal kit services — HelloFresh, Blue Apron, Factor — fail at the one thing
+              users actually want: personalization. They offer meal kits, but the kits don&apos;t
+              adapt to dietary restrictions, budget, or caloric goals. Users feel like they&apos;re
+              choosing from a menu that wasn&apos;t made for them.
             </p>
             <p className="text-base leading-relaxed text-neutral-500 max-w-2xl">
-              Chef&apos;s Choice needed to serve two audiences simultaneously: cooks who needed a
-              dignified way to list meals, manage orders, and get paid — and buyers who needed to
-              trust an unknown cook enough to order a meal.
+              Blue Apron users specifically cited difficulty managing subscriptions and unwanted
+              automatic deliveries. Factor was praised for variety but lacked real customization.
+              No player was leveraging AI to make meal planning feel genuinely personal.
             </p>
           </div>
         </div>
@@ -148,102 +151,137 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-8">
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl">
-              Competitive analysis across three distinct categories of &ldquo;competition&rdquo;
-              revealed where the market had failed users.
+              30+ survey responses across 2 surveys and 3 in-depth user interviews. Competitive
+              analysis across four direct competitors.
             </p>
-            <div className="grid sm:grid-cols-3 gap-4 max-w-3xl">
-              <div className="bg-neutral-50 p-6">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
-                  Goldbelly
+
+            {/* Competitor grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
+              {[
+                { name: 'Factor', note: 'Best variety of pre-made meals. No real customization or AI layer.' },
+                { name: 'Hungryroot', note: 'Closest to AI-driven. Strong personalization but premium-priced.' },
+                { name: 'HelloFresh', note: 'Ingredient kits, not pre-made. High effort for users who want convenience.' },
+                { name: 'Blue Apron', note: 'Subscription management is a pain point. Users hate unwanted auto-deliveries.' },
+              ].map((c) => (
+                <div key={c.name} className="bg-neutral-50 p-5">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-2">{c.name}</p>
+                  <p className="text-sm text-neutral-600 leading-relaxed">{c.note}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Survey findings */}
+            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
+              <div className="border border-neutral-100 p-6">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-4">
+                  Biggest challenges (survey)
                 </p>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  Nationwide shipping of premium foods. Too professional, too expensive. No path for
-                  a home cook with a side hustle.
-                </p>
+                <ul className="space-y-2 text-sm text-neutral-600">
+                  <li>→ 47.6% — finding meals that fit their budget</li>
+                  <li>→ 42.9% — finding meals that fit dietary needs</li>
+                  <li>→ 33.3% — lack of inspiration for new meals</li>
+                  <li>→ 28.6% — difficulty deciding between options</li>
+                </ul>
               </div>
-              <div className="bg-neutral-50 p-6">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
-                  EatWith
+              <div className="border border-neutral-100 p-6">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-4">
+                  What users want
                 </p>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  Experience-first dining events. Great for hosts — but no on-demand ordering, no
-                  takeout model.
-                </p>
-              </div>
-              <div className="bg-neutral-50 p-6">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
-                  Facebook groups
-                </p>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  Real demand, real transactions — but no trust layer, no payments, no reliability.
-                  Pure friction.
-                </p>
+                <ul className="space-y-2 text-sm text-neutral-600">
+                  <li>→ AI personalization & meal recommendations</li>
+                  <li>→ Customization (swaps, portion sizes)</li>
+                  <li>→ Nutritional tracking built-in</li>
+                  <li>→ User reviews before committing to a meal</li>
+                </ul>
               </div>
             </div>
+
             <div className="max-w-2xl space-y-2">
               <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-                Key insight
+                Key stat
               </p>
               <p className="text-base sm:text-lg font-medium text-neutral-700 leading-relaxed">
-                &ldquo;People are already paying their neighbors for food. They just need a platform
-                that doesn&apos;t make them feel like they&apos;re taking a risk.&rdquo;
+                90.5% of users said yes to an AI-powered recipe customization feature that adjusts
+                based on their preferences and restrictions.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MVP Scoping */}
+      {/* Personas */}
       <section className={`${cap} py-14 sm:py-20 border-b border-neutral-100`}>
         <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-16 max-w-5xl">
           <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 pt-1">
-            Scoping the MVP
+            Who we designed for
           </p>
-          <div className="space-y-8">
-            <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl">
-              Working with the engineering lead, we defined a tight MVP: ship only what was necessary
-              for the core transaction loop to function. Everything else waited for v2.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-8 max-w-2xl">
-              <div>
-                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-4">
-                  MVP — shipped
-                </p>
-                <ul className="space-y-2.5 text-sm text-neutral-600">
-                  {[
-                    'Account creation & login',
-                    '7-step onboarding (goals → plan)',
-                    'Homepage + meal browse grid',
-                    'Meal detail modal',
-                    'Checkout with Stripe',
-                  ].map((item) => (
-                    <li key={item} className="flex gap-2.5 items-start">
-                      <span className="text-teal-600 shrink-0 mt-0.5">✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-4">
-                  Post-MVP — deferred
-                </p>
-                <ul className="space-y-2.5 text-sm text-neutral-400">
-                  {[
-                    'Chef dashboard + order management',
-                    'Ratings & reviews',
-                    'Neighborhood-based discovery',
-                    'Delivery (pickup only at launch)',
-                    'In-app messaging',
-                  ].map((item) => (
-                    <li key={item} className="flex gap-2.5 items-start">
-                      <span className="text-neutral-300 shrink-0 mt-0.5">○</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
+            <div className="border border-neutral-200 p-6">
+              <div className="w-8 h-8 rounded-full bg-teal-100 mb-4" />
+              <p className="font-bold text-sm mb-1">Emily Grant</p>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
+                Eco-Conscious Convenience Seeker
+              </p>
+              <p className="text-sm text-neutral-600 leading-relaxed mb-4">
+                Health-conscious, budget-aware, open to AI. Previously used pre-made meal
+                services but left due to lack of customization and excessive plastic packaging.
+              </p>
+              <p className="text-xs text-neutral-400 italic">
+                &ldquo;I eat with my eyes… If the picture isn&apos;t nice, then the description
+                would help sell it to me.&rdquo;
+              </p>
             </div>
+            <div className="border border-neutral-200 p-6">
+              <div className="w-8 h-8 rounded-full bg-teal-100 mb-4" />
+              <p className="font-bold text-sm mb-1">The Busy Mom</p>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-3">
+                Seeking Balance
+              </p>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                Time-strapped, managing family dietary needs across multiple people. Needs fast
+                prep, reliable delivery, and the ability to skip weeks without friction. Trusts
+                services that respect her schedule.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Design principles */}
+      <section className={`${cap} py-14 sm:py-20 border-b border-neutral-100`}>
+        <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-16 max-w-5xl">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 pt-1">
+            Design principles
+          </p>
+          <div className="space-y-8 max-w-2xl">
+            {[
+              {
+                law: "Jakob's Law",
+                title: 'Match familiar patterns',
+                body: 'Users already know how HelloFresh and Factor work. We matched that mental model — meal cards, subscription tiers, weekly selection — so the learning curve was zero. The differentiation happens through personalization depth, not novel UI.',
+              },
+              {
+                law: 'Goal Gradient Effect',
+                title: 'Drive onboarding to completion',
+                body: 'The 7-step progress indicator creates forward momentum — users are more motivated the closer they get to the end. We placed the most delightful steps (choosing meals) at step 6, just before checkout, to reward users for completing the earlier data-collection steps.',
+              },
+              {
+                law: "Miller's Law",
+                title: 'Chunk preference selection',
+                body: 'The Preferences step offers 8 food preference tiles — Vegetarian, Keto, Paleo, Flexitarian, Pescatarian, Chef\'s choice, High-protein, Calorie smart. Tiles instead of dropdowns. Visual chunks instead of a wall of text. Maximum 8 options at a time, always.',
+              },
+              {
+                law: 'Mobile-first design',
+                title: 'Designed for small screens first',
+                body: 'Chef\'s Choice targets busy users — users who browse on their phones while commuting or in the kitchen. Every layout was designed at mobile breakpoints first, then scaled up.',
+              },
+            ].map((p) => (
+              <div key={p.law} className="border-t border-neutral-100 pt-8">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-300 mb-2">{p.law}</p>
+                <p className="font-bold text-sm uppercase tracking-tight mb-3">{p.title}</p>
+                <p className="text-sm text-neutral-500 leading-relaxed">{p.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -256,29 +294,30 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-8">
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl">
-              I designed all 33 screens across the MVP — homepage through checkout — at 1440px desktop.
+              As lead designer, I owned the style guide, the full onboarding and registration flow,
+              the meal selection experience, and the component library handed to engineers.
             </p>
             <div className="grid sm:grid-cols-2 gap-6 max-w-2xl">
               {[
                 {
                   n: '01',
-                  title: 'Homepage',
-                  body: 'Hero section, trust-signal bar, featured chefs, meal browse grid, and testimonials. The first thing a new user sees had to convert skeptics who had never ordered from a home cook before.',
+                  title: 'Style guide & design system',
+                  body: 'Color tokens (primary warm palette + teal secondary), typography (Roboto header), icon library, and component specs — all documented before engineering started.',
                 },
                 {
                   n: '02',
-                  title: 'Login & Account Creation',
-                  body: 'Centered form with email and social login. Minimal fields, clear error states, persistent brand presence in the teal header and illustrated chef mascot.',
+                  title: '7-step onboarding flow',
+                  body: 'Account → Goals → Preferences → Sensitivities → Plan → Choose Meals → Checkout. Progress bar across all steps. Preference tiles at step 3. The longest step is the most visually engaging.',
                 },
                 {
                   n: '03',
-                  title: '7-Step Onboarding',
-                  body: 'Account → Goals → Preferences → Sensitivities → Plan → Choose Meals → Checkout. Progress indicator across all steps to reduce abandonment anxiety. The investment pays off in a personalized browse grid.',
+                  title: 'Meal selection & detail modal',
+                  body: 'Food photography grid, allergen and serving dropdowns, nutrition per serving (calories, protein, fats, carbs), oven and microwave instructions, and "Add to Order" CTA.',
                 },
                 {
                   n: '04',
-                  title: 'Meal Detail Modal',
-                  body: 'Food photography, chef rating, allergen tags, nutrition per serving, cooking method, and a red "Add Meal" CTA. Every signal a buyer needs to commit.',
+                  title: 'Checkout & account management',
+                  body: 'Delivery address, Stripe/PayPal payment form, order summary with first delivery date picker. Post-signup account: Profile, Plan Settings, Dietary Selections, Delivery Info, Payment.',
                 },
               ].map((item) => (
                 <div key={item.n} className="border-t border-neutral-100 pt-6">
@@ -292,58 +331,55 @@ export default function ChefsChoicePage() {
         </div>
       </section>
 
-      {/* Homepage placeholder — full bleed */}
+      {/* Screens — registration flow */}
       <div className="w-full border-y border-neutral-100">
         <Placeholder
-          label="Homepage — Hero + Browse Grid"
+          label="Homepage — hero + browse grid + testimonials"
           className="h-[360px] sm:h-[500px] md:h-[620px]"
         />
       </div>
 
-      {/* Onboarding flow */}
       <div className="w-full border-b border-neutral-100 grid grid-cols-2 sm:grid-cols-4 gap-px bg-neutral-100">
         {[
-          'Onboarding — Account',
-          'Onboarding — Goals',
-          'Onboarding — Preferences',
-          'Onboarding — Choose Meals',
+          'Step 1 — Account: Get Started form',
+          'Step 3 — Preferences: food tile selection',
+          'Step 6 — Choose Meals: meal grid',
+          'Step 7 — Checkout: payment + order summary',
         ].map((label) => (
-          <Placeholder key={label} label={label} className="aspect-[4/3]" />
+          <Placeholder key={label} label={label} className="aspect-[3/4]" />
         ))}
       </div>
 
-      {/* Meal detail + checkout */}
+      {/* Meal detail modal */}
       <div className="w-full border-b border-neutral-100 grid grid-cols-1 sm:grid-cols-2 gap-px bg-neutral-100">
-        <Placeholder label="Meal Detail Modal — Chicken Piccata" className="aspect-[4/3]" />
-        <Placeholder label="Plan Selection + Checkout" className="aspect-[4/3]" />
+        <Placeholder label="Meal detail modal — Family Size Steak" className="aspect-[4/3]" />
+        <Placeholder label="Account — Plan Settings & Dietary Selections" className="aspect-[4/3]" />
       </div>
 
-      {/* Design decisions */}
+      {/* Sue Chef */}
       <section className={`${cap} py-14 sm:py-20 border-b border-neutral-100`}>
         <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-16 max-w-5xl">
           <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 pt-1">
-            Design decisions
+            The AI layer
           </p>
-          <div className="space-y-10 max-w-2xl">
-            {[
-              {
-                title: 'Trust before transaction',
-                body: "Every surface that introduced a new cook surfaced three things immediately: a verified profile badge, the pickup window, and at least one real review. Without these, the product was asking strangers to hand money to each other with no safety net. Trust signals weren't decoration — they were the product.",
-              },
-              {
-                title: 'Onboarding length is justified',
-                body: "7 steps felt like a lot. But the alternative was asking users to re-state dietary preferences every time they ordered. The onboarding investment pays off in a fully personalized browse grid on every return visit. We validated this during testing: completion rate held when the progress indicator was visible.",
-              },
-              {
-                title: 'Component library mapped 1:1 to React',
-                body: 'I built the Figma component library with the engineering handoff explicitly in mind. Every component name matched its React counterpart. Tokens were documented and transferred before a single line of code was written. This is a significant reason the MVP shipped on schedule.',
-              },
-            ].map((d) => (
-              <div key={d.title} className="border-t border-neutral-100 pt-8">
-                <p className="font-bold text-sm uppercase tracking-tight mb-3">{d.title}</p>
-                <p className="text-sm text-neutral-500 leading-relaxed">{d.body}</p>
-              </div>
-            ))}
+          <div className="space-y-6 max-w-2xl">
+            <p className="text-base sm:text-lg leading-relaxed text-neutral-600">
+              Sue Chef is the AI meal recommendation chatbot built into Chef&apos;s Choice — a
+              Python/PyTorch NLP model that recommends meals based on the user&apos;s onboarding
+              preferences and answers real nutritional questions.
+            </p>
+            <div className="bg-neutral-900 rounded-sm p-6 font-mono text-sm space-y-1">
+              <p className="text-neutral-500">Guest: I am looking for some low calorie options</p>
+              <p className="text-teal-400">Sue: Based on your preferences I would recommend our Beef and Broccoli Stir-Fry or Vegetable Stir-Fry with Tofu.</p>
+              <p className="text-neutral-500">Guest: What are some gluten free options</p>
+              <p className="text-teal-400">Sue: I would recommend the gluten free versions of our Shrimp Scampi or Beef Stroganoff. I would also suggest the Quinoa Salad or Chicken Caesar Wrap with a Gluten Free Spinach Tortilla.</p>
+            </div>
+            <p className="text-sm text-neutral-500 leading-relaxed">
+              My role on Sue Chef was UX: where the chatbot surfaces in the meal selection flow,
+              how the interaction patterns feel relative to the rest of the app, and the empty
+              states during v1 while the model was trained. The AI/ML build was led by Marci
+              Prescott.
+            </p>
           </div>
         </div>
       </section>
@@ -356,14 +392,14 @@ export default function ChefsChoicePage() {
           </p>
           <div>
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl mb-12">
-              MVP shipped on schedule. The registration-to-order flow — 21 of 33 screens — worked
-              clean on the first real transactions.
+              Shipped a full MERN app with real payments, real users, and a working AI model — on
+              a 6-month timeline with a 11-person team.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-              <Stat value="33" label="Screens designed across the full MVP" />
-              <Stat value="12" label="Home cooks onboarded in the first week" />
-              <Stat value="7" label="Onboarding steps with no reported abandonment" />
-              <Stat value="$0" label="Stripe integration errors on first live transactions" />
+              <Stat value="30+" label="Survey responses across 2 rounds of user research" />
+              <Stat value="90.5%" label="Of users wanted AI-powered recipe customization" />
+              <Stat value="7" label="Onboarding steps designed and shipped" />
+              <Stat value="11" label="Team members across design, engineering, and AI/ML" />
             </div>
           </div>
         </div>
@@ -379,18 +415,18 @@ export default function ChefsChoicePage() {
             {[
               {
                 n: '01',
-                title: 'Chef Dashboard',
-                body: 'Order management view designed for a phone in a kitchen — one hand, high ambient noise, real stress. This was scoped out of the MVP but is the most critical next surface.',
+                title: 'Sue Chef in the product',
+                body: 'The AI chatbot was demoed in the terminal. The next sprint brings it into the actual app UI — embedded in the meal selection step, surfacing recommendations inline as users browse.',
               },
               {
                 n: '02',
-                title: 'Neighborhood Discovery',
-                body: "Location-aware browsing so buyers see cooks within pickup distance first. Reduces the trust gap and makes the platform actually usable for the core use case it was built for.",
+                title: 'Live meal ratings & reviews',
+                body: 'Users rated the product 5-star in testing but had no way to rate individual meals. Ratings + reviews feed back into the AI recommendations loop and build trust for new users.',
               },
               {
                 n: '03',
-                title: 'Ratings & Reviews',
-                body: 'Two-way system: buyers rate meals, chefs rate buyers. Reviews are the trust layer that makes repeat use possible — and that eventually lets the platform reduce other friction points.',
+                title: 'Push notifications & delivery tracking',
+                body: 'Firebase notifications for delivery status. Users want to know exactly when their food arrives — this was the most-requested feature in post-survey follow-ups.',
               },
             ].map((item) => (
               <div key={item.n} className="flex gap-6 border-t border-neutral-100 pt-6">
@@ -413,14 +449,16 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-4 max-w-2xl">
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600">
-              This project taught me what it means to design for a real transaction. Not a prototype
-              transaction — a Stripe charge to a real person, for food a real person cooked. The
-              design has to earn that trust at every step.
+              Designing at this scale — 11 people, 6 months, real money on the line —
+              requires a different kind of discipline than solo or small-team work. Every decision
+              has to be documented and justified because engineers are building from it immediately.
+              Ambiguity in a Figma file becomes a bug in production.
             </p>
             <p className="text-base leading-relaxed text-neutral-500">
-              Collaborating closely with the engineering lead changed how I think about component
-              libraries. When every Figma component name maps to a React component, handoff stops
-              being a conversation and starts being a delivery.
+              Working alongside an AI/ML engineer to design the UX for a chatbot that didn&apos;t
+              exist yet was the hardest problem. You&apos;re designing for a capability that&apos;s
+              still being trained — so the interaction patterns have to be flexible enough to hold
+              regardless of what the model can actually deliver.
             </p>
           </div>
         </div>
