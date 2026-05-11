@@ -331,29 +331,37 @@ export default function ChefsChoicePage() {
         </div>
       </section>
 
-      {/* Screens — registration flow */}
+      {/* Screens */}
       <div className="w-full border-y border-neutral-100">
         <Placeholder
-          label="Homepage — hero + browse grid + testimonials"
+          label="Homepage — 'A Chef In Every Tasty Meal Box' hero · Preferences & AI Picks · Browse Delicious Meals · Fresh Delivery columns · meal preview grid · testimonials"
           className="h-[360px] sm:h-[500px] md:h-[620px]"
         />
       </div>
 
+      {/* Onboarding: data collection steps */}
       <div className="w-full border-b border-neutral-100 grid grid-cols-2 sm:grid-cols-4 gap-px bg-neutral-100">
         {[
-          'Step 1 — Account: Get Started form',
-          'Step 3 — Preferences: food tile selection',
-          'Step 6 — Choose Meals: meal grid',
-          'Step 7 — Checkout: payment + order summary',
+          'Step 1 — Account: name, age, address, daily calories, email, password',
+          'Step 3 — Preferences: 8 diet type tiles (Vegetarian, Keto, Paleo, Flexitarian…)',
+          'Step 4 — Sensitivities: allergen icon tiles (Nuts, Gluten, Dairy, Shellfish…)',
+          'Step 5 — Plan: servings selector + days per week, live price calculator',
         ].map((label) => (
           <Placeholder key={label} label={label} className="aspect-[3/4]" />
         ))}
       </div>
 
-      {/* Meal detail modal */}
+      {/* Meal selection + detail */}
       <div className="w-full border-b border-neutral-100 grid grid-cols-1 sm:grid-cols-2 gap-px bg-neutral-100">
-        <Placeholder label="Meal detail modal — Family Size Steak" className="aspect-[4/3]" />
-        <Placeholder label="Account — Plan Settings & Dietary Selections" className="aspect-[4/3]" />
+        <Placeholder label="Step 6 — Choose Meals: 3-column meal grid with live order cart + Sue Chef coming soon" className="aspect-[4/3]" />
+        <Placeholder label="Meal detail modal — Beef and Broccoli Stir-Fry: nutrition, allergens, cooking instructions, Add to Order" className="aspect-[4/3]" />
+      </div>
+
+      {/* Order flow */}
+      <div className="w-full border-b border-neutral-100 grid grid-cols-1 sm:grid-cols-3 gap-px bg-neutral-100">
+        <Placeholder label="My Order — selected meals with Edit/Remove, order total, Continue to Billing" className="aspect-[3/4]" />
+        <Placeholder label="Checkout — delivery address form + card payment + first delivery date picker" className="aspect-[3/4]" />
+        <Placeholder label="Order confirmation — Thank You For Your Order, delivery date Saturday July 20" className="aspect-[3/4]" />
       </div>
 
       {/* Sue Chef */}
