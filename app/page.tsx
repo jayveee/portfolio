@@ -123,6 +123,21 @@ export default function Home() {
                     {toy.charAt(0).toUpperCase() + toy.slice(1)}
                   </button>
                 ))}
+                <button
+                  id="toy-clear"
+                  className="font-mono text-[10px] border uppercase tracking-[0.15em] transition hover:opacity-70 px-3 py-2 sm:px-2 sm:py-1"
+                  style={{
+                    display: 'none',
+                    position: 'relative',
+                    zIndex: 20,
+                    background: '#e7e5e4',
+                    borderColor: '#e7e5e4',
+                    color: '#1c1917',
+                  }}
+                >
+                  <span className="sm:hidden">×</span>
+                  <span className="hidden sm:inline">× Put away</span>
+                </button>
               </span>
             </div>
           </div>
