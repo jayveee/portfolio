@@ -51,13 +51,13 @@ export const projects: Project[] = [
     title: "Chef's Choice",
     label: "CHEF'S",
     role: 'Lead UX/UI Designer',
-    description: 'Food ordering MVP built with React, Node, and Stripe. Designed end-to-end from research to launch.',
-    tags: ['MVP', 'Mobile', 'E-commerce'],
+    description: 'Pre-made meal subscription MVP built for the Driven II Develop Developer\'s Challenge. Lead designer on an 11-person team — research, design system, AI chatbot UX, shipped in 8 weeks.',
+    tags: ['MVP', 'Web', 'Subscription'],
     year: '2024',
     bg: 'bg-neutral-800',
     overview: "Chef's Choice is a food ordering platform built to close the gap between home cooks and their neighborhoods. I owned design end-to-end — from discovery through shipped product.",
     timeline: '6 months, 2024',
-    team: 'Lead Designer + 2 Engineers',
+    team: 'Lead Designer + 10 teammates (design, engineering, AI/ML)',
     sections: [
       {
         label: 'Problem',

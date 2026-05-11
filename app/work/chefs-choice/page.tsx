@@ -84,7 +84,7 @@ export default function ChefsChoicePage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {[
             { label: 'Role', value: 'Lead UX/UI Researcher & Designer' },
-            { label: 'Timeline', value: '2024' },
+            { label: 'Timeline', value: '8 weeks · May–July 2024' },
             { label: 'Team', value: '11 — design, engineering, AI/ML' },
             { label: 'Stack', value: 'MERN, TypeScript, Stripe, Firebase' },
           ].map((m) => (
@@ -111,11 +111,13 @@ export default function ChefsChoicePage() {
               preferences through AI.
             </p>
             <p className="text-base leading-relaxed text-neutral-500 max-w-2xl">
-              I led UX/UI research and design on an 11-person cross-functional team: conducting
-              user surveys, building personas, designing the full onboarding and meal selection
-              flow, and creating a component library that mapped directly to the React codebase.
-              The product shipped as a MERN MVP with full CRUD, JWT auth, Stripe and PayPal
-              checkout, and an AI meal recommendation chatbot called Sue Chef.
+              This was built as part of the Driven II Develop Developer&apos;s Challenge — an
+              8-week intensive program that assembled cross-functional teams of 10 to take a
+              product from research through a live pitch. I led UX/UI research and design:
+              conducting user surveys, building personas, designing the full onboarding and
+              meal selection flow, and creating a component library that mapped directly to
+              the React codebase. The product shipped as a MERN MVP with full CRUD, JWT auth,
+              Stripe and PayPal checkout, and an AI meal recommendation chatbot called Sue Chef.
             </p>
           </div>
         </div>
@@ -400,8 +402,11 @@ export default function ChefsChoicePage() {
           </p>
           <div>
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600 max-w-2xl mb-12">
-              Shipped a full MERN app with real payments, real users, and a working AI model — on
-              a 6-month timeline with a 11-person team.
+              Shipped a full MERN app with real payments, a working AI model, and a live pitch
+              at week 8 — built in 8 weeks by an 11-person team assembled for the challenge.
+              No post-launch user testing; the program timeline didn&apos;t allow for it. I
+              received a Certificate of Appreciation from Driven II Develop for dedication,
+              problem-solving, collaboration, and innovation.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
               <Stat value="30+" label="Survey responses across 2 rounds of user research" />
@@ -457,16 +462,22 @@ export default function ChefsChoicePage() {
           </p>
           <div className="space-y-4 max-w-2xl">
             <p className="text-base sm:text-lg leading-relaxed text-neutral-600">
-              Designing at this scale — 11 people, 6 months, real money on the line —
-              requires a different kind of discipline than solo or small-team work. Every decision
-              has to be documented and justified because engineers are building from it immediately.
-              Ambiguity in a Figma file becomes a bug in production.
+              Designing under challenge constraints — a team you didn&apos;t hire, a timeline
+              you didn&apos;t set, and a pitch at the end — is a different discipline than
+              client work. Every decision has to be documented and defensible because engineers
+              are building from it immediately, and there&apos;s no runway to backtrack.
             </p>
             <p className="text-base leading-relaxed text-neutral-500">
-              Working alongside an AI/ML engineer to design the UX for a chatbot that didn&apos;t
-              exist yet was the hardest problem. You&apos;re designing for a capability that&apos;s
-              still being trained — so the interaction patterns have to be flexible enough to hold
-              regardless of what the model can actually deliver.
+              The biggest gap was testing. The program structure — requirements, then design,
+              then build, then pitch — didn&apos;t leave a window for testing the shipped product
+              with real users. The research informed the design, but the loop never closed. That&apos;s
+              what I&apos;d push hardest to protect time for if I did it again.
+            </p>
+            <p className="text-base leading-relaxed text-neutral-500">
+              Working alongside an AI/ML engineer on a chatbot that was still being trained was
+              the other hard problem. You&apos;re designing for a capability that doesn&apos;t
+              fully exist yet — interaction patterns have to be flexible enough to hold regardless
+              of what the model can actually deliver on week 8.
             </p>
           </div>
         </div>
