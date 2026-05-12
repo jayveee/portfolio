@@ -198,7 +198,12 @@ export default function PresafePage() {
                 {
                   n: '04',
                   title: 'SOS & care teams',
-                  body: 'SOS flow covering initiation, in-progress state, team messaging, and resolution. Care Teams with conditional states: no PWD yet, PWD only, volunteer teams, mixed. Profile views for each team member with caregiving relationships clearly labeled.',
+                  body: 'SOS flow covering initiation, in-progress state, and resolution. Care Teams with conditional states: no PWD yet, PWD only, volunteer teams, mixed. Profile views for each team member with caregiving relationships clearly labeled.',
+                },
+                {
+                  n: '05',
+                  title: 'In-app messaging',
+                  body: 'A team messaging thread scoped to active SOS events — caregivers and care team members can communicate in real time during an alert without leaving the app. Designed as a persistent thread tied to the SOS state: visible while SOS is active, archived when resolved. This reduced the need for out-of-band texting during high-stress moments.',
                 },
               ].map((item) => (
                 <div key={item.n} className="border-t border-neutral-100 pt-6">
@@ -213,10 +218,11 @@ export default function PresafePage() {
       </section>
 
       {/* Screens */}
-      <div className="w-full border-y border-neutral-100 grid grid-cols-2 sm:grid-cols-4 gap-px bg-neutral-100">
+      <div className="w-full border-y border-neutral-100 grid grid-cols-2 sm:grid-cols-5 gap-px bg-neutral-100">
         <Placeholder label="Map view — PWD avatar pin, safe zone radius, road & water hazard icons, SOS button top right" className="aspect-[9/16]" />
         <Placeholder label="Nav drawer — Caregiving section: Location, Safety check, Weather alerts, Alert history, Hazard index, Safe zone" className="aspect-[9/16]" />
-        <Placeholder label="SOS in progress — red banner, team messaging thread, resolve CTA" className="aspect-[9/16]" />
+        <Placeholder label="SOS in progress — red banner, active alert state, resolve CTA" className="aspect-[9/16]" />
+        <Placeholder label="In-app messaging — SOS chat thread, care team members, real-time messages during active alert" className="aspect-[9/16]" />
         <Placeholder label="Care Teams — profile view with primary care for + volunteer teams, conditional states" className="aspect-[9/16]" />
       </div>
 
